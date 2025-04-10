@@ -1,0 +1,22 @@
+[
+    {
+      "image": "https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+      "title": "Delicious Meals, Delivered Fresh",
+      "description": "Savor the taste of home-cooked goodness anytime, anywhere with our freshly prepared dishes brought right to your door.",
+      "cta": "Order Now"
+    },
+    {
+      "image": "https://images.pexels.com/photos/1600711/pexels-photo-1600711.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+      "title": "Spicy Beef Burger",
+      "description": "Juicy flame-grilled beef layered with fresh lettuce, cheese, and our signature spicy sauce — a true burst of flavor in every bite.",
+      "cta": " Best Seller"
+    },
+    {
+      "image": "https://images.pexels.com/photos/70497/pexels-photo-70497.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+      "title": "Summer Combo Deal",
+      "description": "Get 2 meals and 2 drinks at just ₹399. Perfect for sharing — but only available for a limited time!",
+      "validTill": "2025-05-30",
+      "cta": "Grab the Deal"
+    }
+  ]
+  
