@@ -55,7 +55,7 @@ const foodItems = [
 
 const SpecialFood = () => {
     return (
-        <div className=" bg-[#faebdd]">
+        <div className=" bg-[#f8ece1]">
             <div className="container mx-auto flex flex-col-reverse lg:flex-row items-center justify-between px-4 py-8 gap-6">
               
                 <div className="text-center lg:text-left">
