@@ -6,7 +6,7 @@ const links = [
   { name: "Home", href: "/" },
   { name: "Appointment", href: "/appointment" },
   { name: "Contact Us", href: "/contact" },
-  { name: "About", href: "/about" }
+  { name: "About", href: "/about" },
 ];
 
 const NavLinks = ({ textColor }) => {

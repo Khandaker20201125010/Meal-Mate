@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
 import { SlMenu } from "react-icons/sl";
@@ -24,14 +24,16 @@ const NavbarBody = () => {
       setNavbarVisible(true);
       setNavColor("bg-transparent"); // Ensure navbar remains transparent at top
       setTextColor("text-white");
-      setButtonColor("bg-transparent text-orange-900 hover:bg-white");
+      setButtonColor("bg-transparent text-orange-900 ");
     } else if (currentScrollY > lastScrollY) {
       setNavbarVisible(false);
     } else {
       setNavbarVisible(true);
       setNavColor("bg-white"); // Set to white after scrolling down
       setTextColor("text-orange-500");
-      setButtonColor("bg-gradient-to-r from-pink-500 to-orange-500 text-white hover:text-gray-200");
+      setButtonColor(
+        "bg-gradient-to-r from-pink-500 to-orange-500 text-white hover:text-gray-200 ",
+      );
     }
 
     setLastScrollY(currentScrollY);
@@ -48,11 +50,9 @@ const NavbarBody = () => {
 
   return (
     <div
-      className={`${
-        lastScrollY === 0 ? "absolute" : "fixed"
-      } top-0 left-0 right-0 mx-auto max-w-[90rem] z-50 transition-all duration-300 ${navColor} ${
-        navbarVisible ? "transform-none" : "-translate-y-full"
-      }`}
+      className={`${lastScrollY === 0 ? "absolute" : "fixed"
+        } top-0 left-0 right-0 mx-auto max-w-[90rem] z-50 transition-all duration-300 ${navColor} ${navbarVisible ? "transform-none" : "-translate-y-full"
+        }`}
     >
       <div className="navbar px-4 py-2 flex justify-between items-center">
         <Logo />
@@ -63,9 +63,11 @@ const NavbarBody = () => {
         <div className="hidden lg:block">
           <a
             href="/login"
-            className={`btn btn-outline ${buttonColor} border-blue-900 mx-4`}
+            className={` ${buttonColor} border-blue-900 mx-4 rounded-full`}
           >
-           <Button>  Login</Button>
+            <button class="btn px-6 py-2 border border-white text-white font-semibold tracking-wider rounded-full backdrop-blur-lg bg-opacity-75 bg-transparent transition hover:bg-gradient-to-r from-pink-500 to-orange-500">
+              Login →
+            </button>
           </a>
         </div>
 
@@ -73,9 +75,9 @@ const NavbarBody = () => {
         <div className="lg:hidden">
           <button onClick={() => setIsOpen(!isOpen)}>
             {isOpen ? (
-              <AiOutlineClose size={28} className="text-cyan-500" />
+              <AiOutlineClose size={28} className="text-orange-500" />
             ) : (
-              <SlMenu size={28} className="text-cyan-500" />
+              <SlMenu size={28} className="text-orange-500" />
             )}
           </button>
         </div>

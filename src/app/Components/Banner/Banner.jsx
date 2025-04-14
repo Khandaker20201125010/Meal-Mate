@@ -1,4 +1,3 @@
-
 "use client";
 import React, { useEffect, useState } from "react";
 import { FaXTwitter } from "react-icons/fa6";
@@ -12,7 +11,7 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/effect-fade";
-import "./BannerSection.css"
+import "./BannerSection.css";
 import Container from "../../ui/Container";
 const Banner = () => {
   const [slides, setSlides] = useState([]);
@@ -92,17 +91,16 @@ const Banner = () => {
 
               {/* Navigation Arrows */}
               <div className="border-b-[1px] border-white w-24 sm:w-60 md:w-72 lg:w-80 h-[1px] z-10 pt-10 mr-4">
-              <div className="bottom-0 right-10 md:right-20 absolute z-10 button-next-slide duration-500 w-10 h-10 text-white grid place-items-center cursor-pointer">
-                <IoIosArrowBack className="text-lg sm:text-xl md:text-2xl font-semibold" />
+                <div className="bottom-0 right-10 md:right-20 absolute z-10 button-next-slide duration-500 w-10 h-10 text-white grid place-items-center cursor-pointer">
+                  <IoIosArrowBack className="text-lg sm:text-xl md:text-2xl font-semibold" />
+                </div>
+                <div className="bottom-0 right-0 absolute z-10 button-prev-slide duration-500 w-10 h-10 text-white grid place-items-center cursor-pointer">
+                  <IoIosArrowForward className="text-lg sm:text-xl md:text-2xl font-semibold" />
+                </div>
               </div>
-              <div className="bottom-0 right-0 absolute z-10 button-prev-slide duration-500 w-10 h-10 text-white grid place-items-center cursor-pointer">
-                <IoIosArrowForward className="text-lg sm:text-xl md:text-2xl font-semibold" />
-              </div>
-            </div>
             </div>
           </div>
         </Container>
-
       </Swiper>
     </div>
   );

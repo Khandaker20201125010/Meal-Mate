@@ -10,7 +10,7 @@ const buttonVariants = cva(
     variants: {
       variant: {
         default:
-          "bg-gradient-to-r from-pink-500 to-orange-500 text-white shadow-xs hover:opacity-80", // Gradient button
+          "bg-primary text-primary-foreground shadow-xs hover:bg-primary/90",
         destructive:
           "bg-destructive text-white shadow-xs hover:bg-destructive/90 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive/60",
         outline:
@@ -29,7 +29,7 @@ const buttonVariants = cva(
       },
     },
     defaultVariants: {
-      variant: "default",  // Default variant is now the gradient button
+      variant: "default",
       size: "default",
     },
   }
