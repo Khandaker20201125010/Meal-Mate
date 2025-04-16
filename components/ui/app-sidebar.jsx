@@ -25,7 +25,7 @@ import { usePathname } from "next/navigation";
 // Admin-specific menu
 const adminMenu = [
   { title: "Profile", url: "/dashboard/profile", icon: UserCircle },
-  { title: "Add Menu", url: "/dashboard/addMenu", icon: UtensilsCrossed },
+  { title: "Add Menu", url: "/dashboard/add-menu", icon: UtensilsCrossed },
   { title: "Manage User", url: "/dashboard/manage-users", icon: Users },
   { title: "Manage Menu", url: "/dashboard/manage-menu", icon: ClipboardList },
   { title: "All Bookings", url: "/dashboard/bookings", icon: CalendarCheck },
