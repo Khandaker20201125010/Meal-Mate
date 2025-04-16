@@ -65,7 +65,7 @@ const NavbarBody = () => {
             href="/login"
             className={` ${buttonColor} border-blue-900 mx-4 rounded-full`}
           >
-            <button class="btn px-6 py-2 border border-white text-white font-semibold tracking-wider rounded-full backdrop-blur-lg bg-opacity-75 bg-transparent transition hover:bg-gradient-to-r from-pink-500 to-orange-500">
+            <button className="btn px-6 py-2 border border-white text-white font-semibold tracking-wider rounded-full backdrop-blur-lg bg-opacity-75 bg-transparent transition hover:bg-gradient-to-r from-pink-500 to-orange-500">
               Login →
             </button>
           </a>

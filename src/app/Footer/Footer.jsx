@@ -20,7 +20,7 @@ const Footer = () => {
 
                     <div>
                         <h3 className="font-semibold mb-2">CONTACT US</h3>
-                        <p>MEAL MATE Restaurant & Fine Dining,<br />71 Madison Ave, New York, USA</p>
+                        <p>MEAL MATE Restaurant & Fine Dining,<br />Khulna,Bangladesh</p>
                         <p className="mt-2 text-[#9e2d1d] font-semibold">+1890 123 456<br />+1891 345 888</p>
                         <p className="text-sm mt-1">reservations@example.com</p>
                     </div>

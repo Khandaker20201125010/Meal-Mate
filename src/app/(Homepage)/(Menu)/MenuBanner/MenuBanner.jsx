@@ -1,5 +1,5 @@
 import { FaGreaterThan } from 'react-icons/fa6';
-import menuBanner from '../../../../public/assists/images/menu-banner.jpg'
+import menuBanner from '../../../../../public/assists/images/menu-banner.jpg'
 
 const MenuBanner = () => {
     return (
