@@ -3,6 +3,8 @@
 import { useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { LuImageUp } from "react-icons/lu";
+import { MdOutlineCancel } from "react-icons/md";
+import Swal from "sweetalert2";
 
 const image_hosting_token = process.env.NEXT_PUBLIC_IMAGE_HOSTING_KEY;
 const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_token}`;
@@ -30,6 +32,7 @@ const AddMealForm = () => {
         }
     };
 
+
     const handleRemoveImage = () => {
         setPreviewImage(null);
         if (fileInputRef.current) {
@@ -38,13 +41,69 @@ const AddMealForm = () => {
     };
 
 
-    const onSubmit = (data) => {
-        console.log("Form Data:", {
-            ...data,
-            image: data.image[0], // image file
-        });
-        reset();
+
+    const onSubmit = async (data) => {
+        const formData = new FormData();
+        formData.append("image", data.image);
+        try {
+            const res = await fetch(image_hosting_api, { method: "POST", body: formData });
+            const result = await res.json();
+
+            if (!result.success) {
+                Swal.fire({
+                    icon: "error",
+                    title: "Image Upload Failed",
+                    text: result.error?.message || "Please try again.",
+                });
+                return;
+            }
+
+            const imageUrl = result.data.url;
+
+            // 2. Send full menu data to our API
+            const menuData = {
+                title: data.title,
+                desc: data.desc,
+                smallPrice: parseFloat(data.smallPrice),
+                largePrice: parseFloat(data.largePrice),
+                image: imageUrl,
+                category: data.category || [],
+            };
+
+            const saveRes = await fetch("/api/menus", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(menuData),
+            });
+
+            if (!saveRes.ok) {
+                const err = await saveRes.json();
+                throw new Error(err.error || "Failed to save menu");
+            }
+
+            const saved = await saveRes.json();
+            console.log("Saved menu:", saved);
+
+            // show success alert
+            await Swal.fire({
+                icon: "success",
+                title: "Menu Added",
+                text: `"${saved.title}" has been added successfully!`,
+                confirmButtonText: "Great",
+            });
+            reset();
+            setPreviewImage(null);
+
+        } catch (err) {
+            console.error("Error:", err);
+            Swal.fire({
+                icon: "error",
+                title: "Something went wrong",
+                text: err.message,
+            });
+        }
     };
+
 
     return (
         <div className="max-w-4xl mx-auto p-6 bg-white rounded shadow">
@@ -155,9 +214,9 @@ const AddMealForm = () => {
                 {/* Submit */}
                 <button
                     type="submit"
-                    className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
+                    className="btn w-full bg-gradient-to-br from-pink-500 to-orange-500 text-white px-4 py-2 rounded hover:bg-orange-700"
                 >
-                    Submit
+                    Add Menu
                 </button>
             </form>
         </div>

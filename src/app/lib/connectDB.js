@@ -5,11 +5,14 @@ const connectDB = async () => {
     return mongoose.connection.asPromise();
   }
   try {
-    await mongoose.connect(process.env.NEXT_MONGODB_URI);
-    console.log("Connected to MealMate Database");
+    const conn = await mongoose.connect(process.env.NEXT_MONGODB_URI, {
+      dbName: "MealMate",
+    });
+    console.log("Connected to MongoDB:", conn.connection.name); // → “MealMate”
   } catch (error) {
     console.error("Failed to connect to MongoDB", error);
     throw new Error("Failed to connect to MongoDB");
   }
 };
+
 export default connectDB;
