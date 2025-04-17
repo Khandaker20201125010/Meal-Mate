@@ -1,18 +1,31 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import bg from "../../../../public/assists/images/sine-150x150.png";
 
 const BookingSection = () => {
+  const [showVideo, setShowVideo] = useState(false);
+
+  useEffect(() => {
+    // Only run on client
+    setShowVideo(true);
+  }, []);
+
   return (
     <div className="relative h-[750px] md:h-[800px] overflow-hidden">
       {/* Background Video */}
       <div className="absolute inset-0 z-0 pointer-events-none">
-        <iframe
-          className="w-full h-full object-cover max-sm:hidden"
-          src="https://www.youtube.com/embed/yEGuPMJpmj8?autoplay=1&mute=1&loop=1&playlist=yEGuPMJpmj8&controls=0&showinfo=0&modestbranding=1"
-          title="Background Video"
-          allow="autoplay; fullscreen"
-        ></iframe>
+      {showVideo && (
+          <video
+            autoPlay
+            muted
+            loop
+            playsInline
+            className="w-full h-full object-cover max-sm:hidden"
+          >
+            <source src="/videos/Cooking.mp4" type="video/mp4" />
+            Your browser does not support the video tag.
+          </video>
+        )}
       </div>
 
       {/* Overlay */}

@@ -80,11 +80,7 @@ const AddMealForm = () => {
                 const err = await saveRes.json();
                 throw new Error(err.error || "Failed to save menu");
             }
-
             const saved = await saveRes.json();
-            console.log("Saved menu:", saved);
-
-            // show success alert
             await Swal.fire({
                 icon: "success",
                 title: "Menu Added",
