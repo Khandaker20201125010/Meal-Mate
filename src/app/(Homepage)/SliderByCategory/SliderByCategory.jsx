@@ -19,9 +19,8 @@ const SliderByCategory = () => {
 
     const fetchMenus = async () => {
         try {
-            // Remove `process.env.NEXT_PUBLIC_URL` if you are already on the same base URL as the API
-            const { data } = await axios.get(`/api/menus`); // Use relative path instead of process.env.NEXT_PUBLIC_URL
-            console.log(data); // Log the fetched data to see the structure
+            const { data } = await axios.get(`/api/menus`);
+         
             setMenus(data);
         } catch (error) {
             console.error('Error fetching menus:', error);

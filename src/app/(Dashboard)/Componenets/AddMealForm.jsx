@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { LuImageUp } from "react-icons/lu";
@@ -170,7 +171,7 @@ const AddMealForm = () => {
                         </label>
                     ) : (
                         <div className="relative w-full h-full">
-                            <img
+                            <Image width={0} height={0}
                                 src={previewImage}
                                 alt="Preview"
                                 className="w-full h-full object-cover rounded-lg"
