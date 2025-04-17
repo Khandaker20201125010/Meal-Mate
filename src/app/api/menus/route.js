@@ -3,6 +3,16 @@ import connectDB from "../../lib/connectDB";
 import Menu from "@/src/models/Menu";
 // **ABSOLUTE** import from the project root
 
+export async function GET(req) {
+  try {
+    await connectDB(); 
+    const menus = await Menu.find(); 
+    return NextResponse.json(menus, { status: 200 });
+  } catch (err) {
+    console.error("API GET error:", err);
+    return NextResponse.json({ error: "Failed to fetch menus" }, { status: 500 });
+  }
+}
 
 export async function POST(req) {
   try {
