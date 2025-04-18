@@ -1,28 +1,36 @@
-'use client' // Add this line to mark the file as a client-side component
+'use client'; // Marking the component as client-side
 
 import { useEffect, useState } from "react";
 import Navbar from "../Navbar/Navbar";
 import Footer from "../Footer/Footer";
+import { usePathname } from "next/navigation";
 
-
- const metadata = {
+const metadata = {
   title: "MEALMATE | Home",
 };
 
 export default function RootLayout({ children }) {
   const [isLoginOrSignup, setIsLoginOrSignup] = useState(false);
+  const pathname = usePathname();
 
   useEffect(() => {
     setIsLoginOrSignup(
-      window.location.pathname.includes("login") || window.location.pathname.includes("signup")
+      pathname.includes("login") || pathname.includes("signup")
     );
-  }, []);
+  }, [pathname]);
 
   return (
     <>
-      {!isLoginOrSignup && <Navbar />}
-      <main>{children}</main>
-      {!isLoginOrSignup && <Footer />}
+      {/* Conditionally render Navbar and Footer only on non-login and non-signup pages */}
+     
+        <>
+       {!isLoginOrSignup &&  ( <Navbar />)}
+          <main>{children}</main>
+       {!isLoginOrSignup &&   (<Footer />)}
+        </>
+  
+
+     
     </>
   );
 }

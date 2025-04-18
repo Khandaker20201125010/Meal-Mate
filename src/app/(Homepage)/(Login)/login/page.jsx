@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { FcGoogle } from "react-icons/fc";
 import { FaFacebook } from "react-icons/fa";
@@ -8,27 +8,78 @@ import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import Link from "next/link";
 import Image from "next/image";
 import loginBg from "../../../../../public/assists/images/login.png";
+import Swal from "sweetalert2";
+import { useRouter } from "next/navigation";
+import { signIn, useSession } from "next-auth/react";
 
-export default function BicycleLoginPage() {
+export default function LoginPage() {
     const [showPassword, setShowPassword] = useState(false);
+    const router = useRouter();
+    const [loading, setLoading] = useState(false);
+    const { data: session, status, update } = useSession();
+
     const {
         register,
         handleSubmit,
         formState: { errors },
     } = useForm();
 
-    const onSubmit = (data) => {
-        console.log("Login data:", data);
+    useEffect(() => {
+        if (status === "authenticated") {
+            router.push("/");
+        }
+    }, [status, router]);
+
+    if (status === "authenticated") {
+        return null;
+    }
+
+    const handleLogin = async (data) => {
+        setLoading(true);
+        const res = await signIn("credentials", {
+            email: data.email,
+            password: data.password,
+            redirect: false,
+        });
+        setLoading(false);
+
+        if (res.ok) {
+            await update(); // force session refresh
+
+            router.refresh(); // refresh layout (if you're using Next.js 13/14 app directory)
+
+            Swal.fire({
+                icon: "success",
+                title: "Login Successful!",
+                text: "Welcome back!",
+                timer: 2000,
+            });
+
+            router.push("/"); // navigate to home (won’t reload page)
+        } else {
+            Swal.fire({
+                icon: "error",
+                title: "Login Failed!",
+                text: "Invalid email or password.",
+                timer: 2000,
+            });
+        }
+    };
+
+
+    const handleSocialLogin = async (provider) => {
+        setLoading(true);
+        await signIn(provider);
+        setLoading(false);
     };
 
     return (
         <div className="flex h-screen w-full bg-gradient-to-r from-orange-500 via-orange-400 to-pink-300 overflow-hidden">
-            {/* Left Side - Bicycle */}
             <div className="hidden md:flex w-1/2 h-screen">
                 <div className="relative w-full h-full">
                     <Image
                         src={loginBg}
-                        alt="Cycling"
+                        alt="Login Background"
                         fill
                         className="object-cover"
                         priority
@@ -36,7 +87,6 @@ export default function BicycleLoginPage() {
                 </div>
             </div>
 
-            {/* Right Side - Login Form */}
             <div className="w-full md:w-1/2 h-full flex items-center justify-center p-6 md:p-12 bg-white/70 backdrop-blur-md shadow-md z-10">
                 <div className="w-full max-w-md">
                     <h4 className="text-gray-700 mb-2">Start your ride</h4>
@@ -44,7 +94,7 @@ export default function BicycleLoginPage() {
                         Sign in to <span className="text-orange-500">MEALMATE</span>
                     </h2>
 
-                    <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+                    <form onSubmit={handleSubmit(handleLogin)} className="space-y-6">
                         <div className="relative group">
                             <label className="text-xs font-medium text-gray-700 bg-white px-2 absolute left-3 -top-2">
                                 Email
@@ -83,8 +133,9 @@ export default function BicycleLoginPage() {
                         <button
                             type="submit"
                             className="w-full py-3 bg-orange-600 text-white rounded font-semibold hover:bg-orange-500 transition duration-300"
+                            disabled={loading}
                         >
-                            Login
+                            {loading ? "Logging in..." : "Login"}
                         </button>
                     </form>
 
@@ -95,10 +146,16 @@ export default function BicycleLoginPage() {
                     </div>
 
                     <div className="flex gap-4">
-                        <button className="flex-1 py-2.5 border border-gray-400 rounded flex items-center justify-center hover:shadow-lg hover:shadow-orange-300 transition">
+                        <button
+                            onClick={() => handleSocialLogin("google")}
+                            className="flex-1 py-2.5 border border-gray-400 rounded flex items-center justify-center hover:shadow-lg hover:shadow-orange-300 transition"
+                        >
                             <FcGoogle className="text-xl" />
                         </button>
-                        <button className="flex-1 py-2.5 border border-gray-400 rounded flex items-center justify-center hover:shadow-lg hover:shadow-blue-300 transition">
+                        <button
+                            onClick={() => handleSocialLogin("facebook")}
+                            className="flex-1 py-2.5 border border-gray-400 rounded flex items-center justify-center hover:shadow-lg hover:shadow-blue-300 transition"
+                        >
                             <FaFacebook className="text-xl text-blue-600" />
                         </button>
                     </div>

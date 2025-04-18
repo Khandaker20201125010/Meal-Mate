@@ -28,7 +28,7 @@ export default function BicycleSignUpPage() {
                 <div className="relative w-full h-full">
                     <Image
                         src={loginBg}
-                        alt="Cycling"
+                        alt="Foody"
                         fill
                         className="object-cover"
                         priority

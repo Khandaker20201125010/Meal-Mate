@@ -1,3 +1,4 @@
+import AuthProvider from "../services/AuthProvider";
 import "./globals.css";
 import { Roboto } from "next/font/google";
 
@@ -12,7 +13,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en" data-theme="light">
       <body className={`${roboto.className}`}>
-        {children}
+        <AuthProvider>{children}</AuthProvider>
       </body>
     </html>
   );
