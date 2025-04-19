@@ -55,6 +55,7 @@ const UpdateMenuModal = ({ isOpen, onClose, menu, onUpdateSuccess }) => {
       description: e.target.description.value,
       smallPrice: parseFloat(e.target.smallPrice.value),
       largePrice: parseFloat(e.target.largePrice.value),
+      quantity: parseFloat(e.target.quantity.value),
       category: e.target.category.value.split(",").map((c) => c.trim()),
       image: imageUrl,
     };
@@ -82,65 +83,76 @@ const UpdateMenuModal = ({ isOpen, onClose, menu, onUpdateSuccess }) => {
   return (
     <div className="fixed inset-0 backdrop-blur-sm bg-black/20 flex items-center justify-center z-50">
       <div className="bg-white p-6 rounded-lg shadow-lg w-[600px]">
-        <h3 className="text-xl font-semibold mb-4">Update Menu</h3>
+        <h3 className="text-xl font-semibold mb-1">Update Menu</h3>
         <form onSubmit={handleSubmit}>
-          <div className="mb-4">
+          <div className="mb-1">
             <label className="block mb-1">Title</label>
             <input
               type="text"
               name="title"
               defaultValue={menu.title}
-              className="w-full border px-3 py-2 rounded"
+              className="w-full border px-3 py-2  rounded"
               required
             />
           </div>
 
-          <div className="mb-4">
+          <div className="mb-1">
             <label className="block mb-1">Description</label>
             <textarea
               name="description"
               defaultValue={menu.description}
-              className="w-full border px-3 py-2 rounded"
+              className="w-full border px-3 py-2  rounded"
               required
             />
           </div>
 
-          <div className="mb-4">
+          <div className="mb-1">
             <label className="block mb-1">Small Price</label>
             <input
               type="number"
               name="smallPrice"
               defaultValue={menu.smallPrice}
-              className="w-full border px-3 py-2 rounded"
+              className="w-full border px-3 py-2  rounded"
               step="0.01"
               required
             />
           </div>
 
-          <div className="mb-4">
+          <div className="mb-1">
             <label className="block mb-1">Large Price</label>
             <input
               type="number"
               name="largePrice"
               defaultValue={menu.largePrice}
-              className="w-full border px-3 py-2 rounded"
+              className="w-full border px-3 py-2  rounded"
+              step="0.01"
+              required
+            />
+          </div>
+          <div className="mb-1">
+            <label className="block mb-1">Quantity</label>
+            <input
+              type="number"
+              name="quantity"
+              defaultValue={menu.quantity}
+              className="w-full border px-3 p  rounded"
               step="0.01"
               required
             />
           </div>
 
-          <div className="mb-4">
+          <div className="mb-1">
             <label className="block mb-1">Category (comma-separated)</label>
             <input
               type="text"
               name="category"
               defaultValue={menu.category?.join(", ")}
-              className="w-full border px-3 py-2 rounded"
+              className="w-full border px-3 py-2  rounded"
               required
             />
           </div>
 
-          <div className="mb-4">
+          <div className="mb-1">
             <label className="block mb-1">Image</label>
             {imagePreview && (
               <Image width={200} height={200}
@@ -154,7 +166,7 @@ const UpdateMenuModal = ({ isOpen, onClose, menu, onUpdateSuccess }) => {
               type="file"
               accept="image/*"
               onChange={handleImageChange}
-              className="w-full border px-3 py-2 rounded"
+              className="w-full border px-3 py-2  rounded"
             />
           </div>
 
@@ -162,13 +174,13 @@ const UpdateMenuModal = ({ isOpen, onClose, menu, onUpdateSuccess }) => {
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400"
+              className="px-4 py-2 btn  bg-gray-300 rounded hover:bg-gray-400"
             >
               Cancel
             </button>
             <button
               type="submit"
-              className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+              className="px-4 btn  bg-blue-600 text-white rounded hover:bg-blue-700"
             >
               Update
             </button>

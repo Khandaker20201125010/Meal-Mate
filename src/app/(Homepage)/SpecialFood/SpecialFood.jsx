@@ -77,7 +77,6 @@ const SpecialFood = () => {
                 </div>
                 <div className="p-4">
                   <h3 className="font-semibold text-lg">{item.title}</h3>
-                  <p className="text-gray-600 text-sm">{item.desc}</p>
                   <div className="mt-3 flex gap-4 text-green-700 font-medium">
                     <span>Small : {item.smallPrice}$</span>
                     <span>Large : {item.largePrice}$</span>

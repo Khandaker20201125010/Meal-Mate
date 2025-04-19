@@ -12,9 +12,12 @@ export async function PUT(request, { params }) {
       id,
       {
         title: body.title,
+        desc: body.description, // use `desc` to match your schema
         smallPrice: body.smallPrice,
         largePrice: body.largePrice,
+        quantity: body.quantity,
         category: body.category,
+        image: body.image,
       },
       { new: true }
     );

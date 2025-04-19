@@ -22,7 +22,7 @@ const NavLinks = ({ textColor }) => {
               href={href}
               className={`font-bold px-4 py-2 rounded-md transition-all duration-500 ${
                 isActive
-                  ? "bg-gradient-to-r from-pink-500 to-orange-500 text-white hover:brightness-90"
+                  ? "border-b-2 border-orange-600  text-orange-600 hover:brightness-90"
                   : `bg-transparent ${textColor} border-b border-transparent hover:border-orange-500 `
               }`}
             >

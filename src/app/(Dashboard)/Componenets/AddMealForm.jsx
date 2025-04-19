@@ -67,6 +67,7 @@ const AddMealForm = () => {
                 desc: data.desc,
                 smallPrice: parseFloat(data.smallPrice),
                 largePrice: parseFloat(data.largePrice),
+                quantity: parseInt(data.quantity),
                 image: imageUrl,
                 category: data.category || [],
             };
@@ -151,6 +152,16 @@ const AddMealForm = () => {
                         className="w-full border border-gray-300 rounded p-2"
                     />
                     {errors.largePrice && <p className="text-red-500 text-sm">{errors.largePrice.message}</p>}
+                </div>
+                <div>
+                    <label className="block font-medium">Quantity</label>
+                    <input
+                        type="number"
+                        step="0.01"
+                        {...register("quantity", { required: "Quantity is required" })}
+                        className="w-full border border-gray-300 rounded p-2"
+                    />
+                    {errors.quantity && <p className="text-red-500 text-sm">{errors.quantity.message}</p>}
                 </div>
 
                 {/* Image */}

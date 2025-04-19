@@ -74,6 +74,7 @@ const ManageMenuList = () => {
               <th className="py-2 px-4 text-left">Category</th>
               <th className="py-2 px-4 text-left">Small Price</th>
               <th className="py-2 px-4 text-left">Large Price</th>
+              <th className="py-2 px-4 text-left">Quantity</th>
               <th className="py-2 px-4 text-left">Update</th>
               <th className="py-2 px-4 text-left">Actions</th>
             </tr>
@@ -112,6 +113,7 @@ const ManageMenuList = () => {
                 <td className="py-2 px-4">{menu.category?.join(', ')}</td>
                 <td className="py-2 px-4">${menu.smallPrice}</td>
                 <td className="py-2 px-4">${menu.largePrice}</td>
+                <td className="py-2 px-4">${menu.quantity}</td>
                 <td className="py-2 px-4 space-x-2">
                   <button
                     onClick={() => {
