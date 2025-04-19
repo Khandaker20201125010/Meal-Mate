@@ -6,15 +6,16 @@ import "swiper/css/pagination";
 import { Pagination } from "swiper/modules";
 import axios from "axios";
 import Image from "next/image";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 const SpecialFood = () => {
   const [menus, setMenus] = useState([]);
   const [loading, setLoading] = useState(true);
-
+  const pathname = usePathname();
   const fetchMenus = async () => {
     try {
       const { data } = await axios.get(`/api/menus`);
-      console.log(data);
       setMenus(data);
     } catch (error) {
       console.error('Error fetching menus:', error);
@@ -25,10 +26,7 @@ const SpecialFood = () => {
 
   useEffect(() => {
     fetchMenus();
-    console.log(menus);
   }, []);
-
-
 
   const specialCategoryItems = menus.filter(item =>
     item.category.includes("Special")
@@ -39,14 +37,14 @@ const SpecialFood = () => {
       <div className="container mx-auto flex flex-col-reverse lg:flex-row items-center justify-between px-4 py-8 gap-6">
         <div className="text-center lg:text-left">
           <h1 className="font-bold text-xl text-gray-700">Special Food</h1>
-          <h1 className="mt-5 font-bold text-4xl md:text-5xl text-gray-900">
-            View Our <br className="hidden md:block" />
-            Menu
-          </h1>
+            <h1 className="mt-5 font-bold text-4xl md:text-5xl text-gray-900 cursor-pointer">
+              View Our <br className="hidden md:block" />
+              Menu
+            </h1>
         </div>
 
-        <div className="bg-orange-600 text-white flex items-center justify-center p-6 w-20 h-20 mt-5 rounded-full cursor-pointer hover:bg-orange-700 transition-all">
-          View All
+        <div className="float-animation bg-orange-600 text-white flex items-center justify-center p-6 w-28 h-28 mt-5 rounded-full cursor-pointer hover:bg-orange-700 transition-all">
+          <Link href="/menu">View All</Link>
         </div>
       </div>
 
@@ -83,7 +81,6 @@ const SpecialFood = () => {
                   </div>
                 </div>
               </SwiperSlide>
-
             ))
           ) : (
             <div className="text-center text-gray-600">No special items found</div>
