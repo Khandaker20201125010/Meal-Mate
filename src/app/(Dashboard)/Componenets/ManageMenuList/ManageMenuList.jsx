@@ -98,7 +98,7 @@ const ManageMenuList = () => {
                             alt={menu.title}
                             width={50}
                             height={50}
-                            className="object-cover rounded"
+                            className="object-cover rounded w-16 h-16"
                           />
                         );
                       }
