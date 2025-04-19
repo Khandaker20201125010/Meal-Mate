@@ -12,6 +12,7 @@ import {
 } from '@/components/ui/carousel';
 import sl from '../../../../public/assists/images/sl.png';
 import sr from '../../../../public/assists/images/sr.png';
+import { FaEye } from 'react-icons/fa';
 
 const SliderByCategory = () => {
     const [menus, setMenus] = useState([]);
@@ -20,7 +21,7 @@ const SliderByCategory = () => {
     const fetchMenus = async () => {
         try {
             const { data } = await axios.get(`/api/menus`);
-         
+
             setMenus(data);
         } catch (error) {
             console.error('Error fetching menus:', error);
@@ -76,27 +77,34 @@ const SliderByCategory = () => {
                                     className="sm:basis-full md:basis-1/2 lg:basis-1/3"
                                 >
                                     <div className="p-2">
-                                        <Card className="shadow-md h-[450px]">
-                                            <CardContent className="p-4">
-                                                <div className="relative aspect-[4/3] w-full mb-3 rounded-md overflow-hidden">
+                                        <Card className="shadow-none h-[450px] relative overflow-hidden  rounded-xl">
+                                            <CardContent className="p-0 h-full">
+                                                <div className="relative w-full h-full group overflow-hidden rounded-xl">
+                                                    {/* Gradient overlay */}
+                                                    <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/5 to-transparent z-10"></div>
+
+                                                    {/* Full image */}
                                                     <Image
-                                                      sizes='w-full'
                                                         src={item.image}
                                                         alt={item.title}
                                                         fill
-                                                        style={{ objectFit: 'cover' }}
-                                                        className="rounded-md"
+                                                        sizes="100vw"
+                                                        className="object-cover w-full h-full z-0"
                                                     />
+
+                                                    {/* Overlay category text */}
+                                                    <div className="absolute top-1/2 left-1/2 w-full h-full transform -translate-x-1/2 -translate-y-[200%] opacity-0 group-hover:translate-y-[-50%] group-hover:opacity-100 transition-all duration-500 ease-in-out z-20">
+                                                        <div className="flex-col absolute inset-0 bg-black/60 flex items-center justify-center text-white text-lg font-semibold">
+                                                            <div className='border-2 rounded-full p-2'><FaEye className='text-2xl ' /></div>
+                                                            <div> {Array.isArray(item.category) ? item.category.join(', ') : item.category}</div>
+                                                        </div>
+                                                    </div>
                                                 </div>
-                                                <div className="text-sm text-orange-700 font-medium mb-1">
-                                                    {item.category}
-                                                </div>
-                                                <h3 className="font-semibold text-lg">{item.title}</h3>
-                                                <p className="text-gray-600 text-sm">{item.desc}</p>
                                             </CardContent>
                                         </Card>
                                     </div>
                                 </CarouselItem>
+
                             ))}
                         </CarouselContent>
 
