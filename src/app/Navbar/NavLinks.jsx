@@ -9,7 +9,7 @@ const links = [
   { name: "About", href: "/about" },
 ];
 
-const NavLinks = ({ textColor }) => {
+const NavLinks = ({ textColor, isTop }) => {
   const pathname = usePathname();
 
   return (
@@ -20,10 +20,10 @@ const NavLinks = ({ textColor }) => {
           <li key={name}>
             <Link
               href={href}
-              className={`font-bold px-4 py-2 rounded-md transition-all duration-500 ${
+              className={`font-bold px-4 py-2 rounded-md transition-all duration-300 ${
                 isActive
-                  ? "border-b-2 border-orange-600  text-orange-600 hover:brightness-90"
-                  : `bg-transparent ${textColor} border-b border-transparent hover:border-orange-500 `
+                  ? `${isTop ? "text-white" : "text-orange-500"} border-b-2 border-orange-500`
+                  : `${textColor} border-b border-transparent hover:border-orange-500`
               }`}
             >
               {name}

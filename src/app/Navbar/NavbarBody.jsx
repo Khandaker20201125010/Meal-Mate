@@ -60,8 +60,8 @@ const NavbarBody = () => {
     >
       <div className="navbar px-4 py-2 flex justify-between items-center">
         <Logo />
-        <div className="hidden lg:flex">
-          <NavLinks textColor={textColor} />
+        <div className="hidden lg:flex ">
+        <NavLinks textColor={textColor} isTop={lastScrollY === 0} />
         </div>
 
         <div className="hidden lg:block">

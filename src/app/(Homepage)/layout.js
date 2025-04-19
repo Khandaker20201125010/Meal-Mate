@@ -22,15 +22,17 @@ export default function RootLayout({ children }) {
   return (
     <>
       {/* Conditionally render Navbar and Footer only on non-login and non-signup pages */}
-     
-        <>
-       {!isLoginOrSignup &&  ( <Navbar />)}
-          <main>{children}</main>
-       {!isLoginOrSignup &&   (<Footer />)}
-        </>
-  
 
-     
+      <>
+        <div className="flex flex-col min-h-screen">
+          {!isLoginOrSignup && (<Navbar />)}
+          <main className="flex-grow">{children}</main>
+          {!isLoginOrSignup && (<Footer />)}
+        </div>
+      </>
+
+
+
     </>
   );
 }
