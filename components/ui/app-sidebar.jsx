@@ -7,6 +7,7 @@ import {
   ClipboardList,
   CalendarCheck,
   ChevronUp,
+  Crown,
 } from "lucide-react";
 
 import {
@@ -127,10 +128,8 @@ export function AppSidebar() {
               </button>
             </DropdownMenuTrigger>
             <DropdownMenuContent side="right" className="w-full p-1 m-2">
-              <DropdownMenuItem>Upgrade to Pro</DropdownMenuItem>
-              <DropdownMenuItem>Account</DropdownMenuItem>
-              <DropdownMenuItem>Billing</DropdownMenuItem>
-              <DropdownMenuItem>Notifications</DropdownMenuItem>
+              <DropdownMenuItem className='hover:bg-yellow-100 bg-yellow-400'>Upgrade to Pro <Crown className="text-back" /></DropdownMenuItem>
+              <DropdownMenuItem><Link href="/">Home</Link></DropdownMenuItem>
               <DropdownMenuItem>Log out</DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
