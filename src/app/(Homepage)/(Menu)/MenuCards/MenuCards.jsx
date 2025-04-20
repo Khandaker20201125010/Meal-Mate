@@ -3,7 +3,12 @@ import React, { useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import axios from 'axios';
 import MenuCardsBody from './MenuCardsBody';
-
+import mb1 from '../../../../../public/assists/images/mb1.png';
+import mb2 from '../../../../../public/assists/images/mb2.png';
+import mb3 from '../../../../../public/assists/images/mb3.png';
+import mb4 from '../../../../../public/assists/images/mb4.png';
+import mb5 from '../../../../../public/assists/images/mb5.png';
+import Image from 'next/image';
 const MenuCards = () => {
     const params = useSearchParams();
     const initialCat = params.get('category') || 'All Menu';
@@ -43,7 +48,7 @@ const MenuCards = () => {
     useEffect(() => {
         const catFromURL = params.get('category') || 'All Menu';
         setSelectedCategory(catFromURL);
-      }, [params]);
+    }, [params]);
 
     // Filter + sort
     useEffect(() => {
@@ -77,22 +82,30 @@ const MenuCards = () => {
     }
 
     return (
-        <section id="menu-section" className="px-4 py-8">
-            <h1 className="text-3xl md:text-4xl font-bold text-center text-orange-500 mb-4">
-                Our Menu
-            </h1>
-            <p className="text-center text-gray-600 max-w-2xl mx-auto mb-10">
-                Explore our delicious selection of meals, freshly prepared and served with love.
-            </p>
+        <section id="menu-section" className="px-4 py-8 ">
+            <div className='relative  px-4 md:px-8 lg:px-16 py-12'>
 
+                <div className="absolute right-16 top-3/5 transform -translate-y-1/2 opacity-35 hidden md:block  ">
+                    <Image src={mb2} alt="" width={200} height={300} />
+                </div>
+                <p className="text-center text-yellow-500 max-w-2xl mx-auto mb-4">
+                    Good Food, Great Times
+                </p>
+                <h1 className=" text-3xl md:text-4xl font-bold text-center text-orange-500 mb-2">
+                    View Our Menus
+                </h1>
+            </div>
             {/* search + sort */}
-            <div className="flex flex-wrap justify-center gap-4 mb-6">
+            <div className="flex max-sm:flex-col flex-wrap justify-center gap-4 mb-6">
+                <div className="absolute left-20 transform -translate-y-1/2 opacity-35  hidden md:block  ">
+                    <Image src={mb1} alt="" width={200} height={300} />
+                </div>
                 <input
                     type="text"
                     value={searchQuery}
                     onChange={e => setSearchQuery(e.target.value)}
                     placeholder="Search by name…"
-                    className="p-2 border rounded-md w-1/3 text-black"
+                    className="p-2 border rounded-md w-1/3 max-sm:w-full text-black"
                 />
                 <select
                     value={priceSortOrder}
@@ -111,8 +124,8 @@ const MenuCards = () => {
                         key={cat}
                         onClick={() => setSelectedCategory(cat)}
                         className={`mx-2 py-2 px-4 rounded-lg font-semibold transition ${selectedCategory === cat
-                                ? 'bg-orange-500 text-white'
-                                : 'bg-transparent text-orange-500 border border-orange-500 hover:bg-orange-100'
+                            ? 'bg-orange-500 text-white '
+                            : 'bg-transparent text-orange-500 border border-orange-500 hover:bg-orange-100'
                             }`}
                     >
                         {cat}
@@ -121,7 +134,8 @@ const MenuCards = () => {
             </div>
 
             {/* grid */}
-            <div className="container mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="relative z-10 container mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
                 {currentSet.length > 0 ? (
                     currentSet.map(m => <MenuCardsBody key={m._id} menu={m} />)
                 ) : (
@@ -133,6 +147,9 @@ const MenuCards = () => {
 
             {/* pagination */}
             <div className="flex justify-center mt-8 space-x-2">
+                <div className="absolute opacity-35 left-0 z-0 transform -translate-y-1/2  hidden md:block ">
+                    <Image src={mb4} alt="" width={200} height={300} />
+                </div>
                 <button
                     onClick={() => setCurrentPage(p => Math.max(p - 1, 1))}
                     disabled={currentPage === 1}
@@ -145,8 +162,8 @@ const MenuCards = () => {
                         key={i}
                         onClick={() => setCurrentPage(i + 1)}
                         className={`btn btn-sm px-3 py-1 rounded ${currentPage === i + 1
-                                ? 'bg-orange-600 text-white'
-                                : 'bg-white text-orange-500 border border-orange-500'
+                            ? 'bg-orange-600 text-white'
+                            : 'bg-white text-orange-500 border border-orange-500'
                             }`}
                     >
                         {i + 1}
@@ -159,6 +176,9 @@ const MenuCards = () => {
                 >
                     Next
                 </button>
+                <div className="absolute opacity-35 right-0 z-0 transform -translate-y-1/2  hidden md:block ">
+                    <Image src={mb5} alt="" width={200} height={300} />
+                </div>
             </div>
         </section>
     );

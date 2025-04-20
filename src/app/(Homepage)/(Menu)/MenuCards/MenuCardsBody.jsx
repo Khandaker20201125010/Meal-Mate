@@ -16,7 +16,6 @@ const MenuCardsBody = ({ menu }) => {
       </div>
       <div className="p-4 space-y-2">
         <h2 className="text-xl font-semibold text-orange-600">{menu.title}</h2>
-        <p className="text-gray-600 text-sm">{menu.desc}</p>
         <div className="flex gap-4 items-center">
           <label className="flex items-center gap-1">
             <input
@@ -43,7 +42,7 @@ const MenuCardsBody = ({ menu }) => {
         </div>
         <p className="text-gray-700 font-medium text-lg">Price: ${price.toFixed(2)}</p>
         <button className="btn w-full btn-sm bg-orange-500 hover:bg-orange-600 text-white">
-          Buy Now
+         View Details
         </button>
       </div>
     </div>
