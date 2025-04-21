@@ -1,5 +1,6 @@
 import AboutBG from "@/src/app/Components/AboutComonenets/AboutBG/AboutBG";
 import AboutHeader from "@/src/app/Components/AboutComonenets/AboutHeader/AboutHeader";
+import Chefs from "@/src/app/Components/AboutComonenets/AboutHeader/Chefs";
 import Instanthelp from "@/src/app/Components/AboutComonenets/AboutHeader/Instanthelp";
 
 const page = () => {
@@ -8,6 +9,7 @@ const page = () => {
             <AboutBG></AboutBG>
             <AboutHeader></AboutHeader>
             <Instanthelp></Instanthelp>
+            <Chefs></Chefs>
         </div>
     );
 };
