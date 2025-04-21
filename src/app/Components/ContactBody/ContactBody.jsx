@@ -33,16 +33,30 @@ const ContactBody = () => {
 
       <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-orange-50 to-orange-100 p-6">
         <div className="relative w-full max-w-md">
-
-          {/* === Top Left Image Close to Card === */}
-          <div className="absolute -top-24 -left-24  z-0 hidden md:block opacity-30">
-            <Image src={mb2} alt="Decor Top Left" width={200} height={80} />
+          {/* Top‑Left Decorative Image */}
+          <div className="absolute -top-24 -left-24 z-0 hidden md:block opacity-30">
+            <Image
+              src={mb2}
+              alt="Decor Top Left"
+              width={200}
+              height={80}
+              className="h-auto w-auto"
+              priority
+            />
           </div>
 
-          {/* === Bottom Right Image Close to Card === */}
+          {/* Bottom‑Right Decorative Image */}
           <div className="absolute -bottom-24 -right-24 z-0 hidden md:block opacity-30">
-            <Image src={mb2} alt="Decor Bottom Right" width={200} height={80} />
+            <Image
+              src={mb2}
+              alt="Decor Bottom Right"
+              width={200}
+              height={80}
+              className="h-auto w-auto"
+              priority
+            />
           </div>
+
 
           {/* === Contact Form Card === */}
           <div className="relative z-10 card w-full bg-gradient-to-br from-pink-100 via-orange-100 to-pink-100 shadow-2xl rounded-2xl p-8">

@@ -41,10 +41,10 @@ const SliderByCategory = () => {
             {/* Header */}
             <div className="relative px-4 md:px-8 lg:px-16 py-12">
                 <div className="absolute left-0 top-1/2 transform -translate-y-1/2 opacity-10 hidden md:block">
-                    <Image src={sl} alt="" width={300} height={300} />
+                    <Image src={sl} alt="" width={300} height={300} className='h-auto w-auto' />
                 </div>
                 <div className="absolute right-0 top-3/5 transform -translate-y-1/2 opacity-10 hidden md:block">
-                    <Image src={sr} alt="" width={300} height={300} />
+                    <Image src={sr} alt="" width={300} height={300} className='h-auto w-auto' />
                 </div>
                 <div className="relative z-10 text-center max-w-2xl mx-auto">
                     <h1 className="text-xl md:text-3xl font-bold mb-4 text-orange-500">
@@ -70,7 +70,7 @@ const SliderByCategory = () => {
                                             src={menus.find(m => m.category.includes(cat))?.image || sl}
                                             alt={cat}
                                             fill
-                                            className="object-cover z-0"
+                                            className="object-cover z-0 h-auto w-auto"
                                         />
                                         <div className="absolute inset-0 transform -translate-y-full group-hover:translate-y-0 transition-all duration-500 bg-black/40 z-20 flex flex-col items-center justify-center">
                                             <div

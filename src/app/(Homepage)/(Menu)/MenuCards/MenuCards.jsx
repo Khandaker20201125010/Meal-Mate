@@ -85,7 +85,7 @@ const MenuCards = () => {
             <div className='relative  px-4 md:px-8 lg:px-16 py-12'>
 
                 <div className="absolute right-16 top-3/5 transform -translate-y-1/2 opacity-35 hidden md:block  ">
-                    <Image src={mb2} alt="" width={200} height={300} />
+                    <Image src={mb2} alt="" width={200} height={300} className='w-auto h-auto' />
                 </div>
                 <p className="text-center text-yellow-500 max-w-2xl mx-auto mb-4">
                     Good Food, Great Times
@@ -97,7 +97,7 @@ const MenuCards = () => {
             {/* search + sort */}
             <div className="flex max-sm:flex-col flex-wrap justify-center gap-4 mb-6">
                 <div className="absolute left-20 transform -translate-y-1/2 opacity-35  hidden md:block  ">
-                    <Image src={mb1} alt="" width={200} height={300} />
+                    <Image src={mb1} alt="" width={200} height={300}  className='w-auto h-auto'/>
                 </div>
                 <input
                     type="text"
@@ -145,9 +145,9 @@ const MenuCards = () => {
             </div>
 
             {/* pagination */}
-            <div className="flex justify-center mt-8 space-x-2">
-                <div className="absolute opacity-35 left-0 z-0 transform -translate-y-1/2  hidden md:block ">
-                    <Image src={mb4} alt="" width={200} height={300} />
+            <div className="flex justify-center mt-8 space-x-2 ">
+                <div className="absolute opacity-35 left-0 z-0 transform -translate-y-1/2  hidden md:block  ">
+                    <Image src={mb4} alt="" width={200} height={300} className='w-auto h-auto' />
                 </div>
                 <button
                     onClick={() => setCurrentPage(p => Math.max(p - 1, 1))}
@@ -176,7 +176,7 @@ const MenuCards = () => {
                     Next
                 </button>
                 <div className="absolute opacity-35 right-0 z-0 transform -translate-y-1/2  hidden md:block ">
-                    <Image src={mb5} alt="" width={200} height={300} />
+                    <Image src={mb5} alt="" width={200} height={300} className='w-auto h-auto' />
                 </div>
             </div>
         </section>
