@@ -1,4 +1,5 @@
 'use client';
+import Link from 'next/link';
 import { useState } from 'react';
 
 const MenuCardsBody = ({ menu }) => {
@@ -41,9 +42,11 @@ const MenuCardsBody = ({ menu }) => {
           </label>
         </div>
         <p className="text-gray-700 font-medium text-lg">Price: ${price.toFixed(2)}</p>
-        <button className="btn w-full btn-sm bg-orange-500 hover:bg-orange-600 text-white">
-         View Details
-        </button>
+        <Link href={`/menu/${menu._id}`}>
+          <button className="btn w-full btn-sm bg-orange-500 hover:bg-orange-600 text-white">
+            View Details
+          </button>
+        </Link>
       </div>
     </div>
   );
