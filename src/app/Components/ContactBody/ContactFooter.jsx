@@ -13,8 +13,9 @@ const ContactFooter = () => {
 
       {/* Map Full Width */}
       <div className="w-full bg-gradient-to-tr from-orange-50 to-orange-100 rounded-lg">
-        <div className="py-8">
-            <h1 className="text-3xl text-center font-bold">== Our <span className="text-orange-600">Location</span> ==</h1>
+        <div className="py-8 text-center">
+          <h1 className='text-4xl font-serif'>Our Head Office</h1>
+          <p className="mt-2 text-gray-500">Visit our Head Office</p>
         </div>
         <iframe
           className="w-full h-[300px] md:h-[400px] lg:h-[450px] border-none"

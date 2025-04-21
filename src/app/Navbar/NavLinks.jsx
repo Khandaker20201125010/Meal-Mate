@@ -6,7 +6,7 @@ const links = [
   { name: "Home", href: "/" },
   { name: "Menu", href: "/menu" },
   { name: "Contacts", href: "/contact" },
-  { name: "About", href: "/about" },
+  { name: "About Us", href: "/about" },
 ];
 
 const NavLinks = ({ textColor, isTop }) => {

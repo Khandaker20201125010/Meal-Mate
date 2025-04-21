@@ -72,9 +72,9 @@ const SliderByCategory = () => {
                                             fill
                                             className="object-cover z-0"
                                         />
-                                        <div className="absolute inset-0 flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                                        <div className="absolute inset-0 transform -translate-y-full group-hover:translate-y-0 transition-all duration-500 bg-black/40 z-20 flex flex-col items-center justify-center">
                                             <div
-                                                className="border-2 p-2 rounded-full cursor-pointer mb-2 z-20"
+                                                className="border-2 p-2 rounded-full cursor-pointer mb-2"
                                                 onClick={() => handleCategoryClick(cat)}
                                             >
                                                 <FaEye className="text-white text-2xl" />

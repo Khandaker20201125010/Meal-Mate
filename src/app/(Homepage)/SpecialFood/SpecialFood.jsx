@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/pagination";
-import { Pagination } from "swiper/modules";
+import { Pagination ,Autoplay  } from "swiper/modules";
 import axios from "axios";
 import Image from "next/image";
 import Link from "next/link";
@@ -50,8 +50,15 @@ const SpecialFood = () => {
 
       <div className="w-full px-4 py-8">
         <Swiper
+         modules={[ Autoplay]}
           slidesPerView={1}
           spaceBetween={20}
+          loop={true}
+          speed={1000}
+          autoplay={{
+            delay: 3000, // 3 seconds between slides
+            disableOnInteraction: false, // keeps autoplay running after user interaction
+          }}
           pagination={{ clickable: true }}
           breakpoints={{
             640: { slidesPerView: 1.5 },
@@ -79,6 +86,7 @@ const SpecialFood = () => {
                     <span>Small : {item.smallPrice}$</span>
                     <span>Large : {item.largePrice}$</span>
                   </div>
+                  <button className="btn btn-sm rounded-md bg-orange-600 text-white mt-1 hover:bg-orange-600">View Details</button>
                 </div>
               </SwiperSlide>
             ))

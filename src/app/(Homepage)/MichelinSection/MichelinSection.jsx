@@ -3,6 +3,7 @@ import moddlefood from "../../../../public/assists/images/middlefood.jpg";
 import moddlefoodone from "../../../../public/assists/images/middlefood2.png";
 import moddlefoodtwo from "../../../../public/assists/images/middlefood3.png";
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 const MichelinSection = () => {
   return (
@@ -13,7 +14,7 @@ const MichelinSection = () => {
             <div className="border-2 p-4 w-32 h-44 rounded-full">
               <p className="text-xl">🌸🌸</p>
               <h3 className="font-semibold mt-2 text-md">
-                MICHELIN
+                MealMate
                 <br />
                 2024
               </h3>
@@ -38,7 +39,7 @@ const MichelinSection = () => {
             <div className="border-2 p-4 w-32 h-44 rounded-full">
               <p className="text-xl">🌸🌸🌸</p>
               <h3 className="font-semibold mt-2 text-md">
-                MICHELIN
+                MealMate
                 <br />
                 2025
               </h3>
@@ -85,9 +86,11 @@ const MichelinSection = () => {
               Mediterranean and Lille flavours blend together to offer you
               pleasures to share (or keep for yourself...).
             </p>
-            <Button className="bg-red-800 text-white px-6 py-2 rounded-full hover:bg-red-700 transition">
-              Join Us Now
-            </Button>
+            <Link href="/login">
+              <Button className="bg-red-800 text-white px-6 py-2 rounded-full hover:bg-red-700 transition">
+                Join Us Now
+              </Button>
+            </Link>
           </div>
         </div>
       </section>

@@ -5,7 +5,6 @@ import axios from 'axios';
 import MenuCardsBody from './MenuCardsBody';
 import mb1 from '../../../../../public/assists/images/mb1.png';
 import mb2 from '../../../../../public/assists/images/mb2.png';
-import mb3 from '../../../../../public/assists/images/mb3.png';
 import mb4 from '../../../../../public/assists/images/mb4.png';
 import mb5 from '../../../../../public/assists/images/mb5.png';
 import Image from 'next/image';
