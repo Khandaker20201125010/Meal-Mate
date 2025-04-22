@@ -37,7 +37,7 @@ const SliderByCategory = () => {
     };
 
     return (
-        <div className="bg-[#ebdccd] p-10">
+        <div className="bg-[#ebdccd] p-20">
             {/* Header */}
             <div className="relative px-4 md:px-8 lg:px-16 py-12">
                 <div className="absolute left-0 top-1/2 transform -translate-y-1/2 opacity-10 hidden md:block">

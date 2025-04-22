@@ -20,7 +20,7 @@ const BookingSection = () => {
             muted
             loop
             playsInline
-            className="w-full h-full object-cover max-sm:hidden"
+            className="w-full h-full object-cover "
           >
             <source src="/videos/Cooking.mp4" type="video/mp4" />
             Your browser does not support the video tag.

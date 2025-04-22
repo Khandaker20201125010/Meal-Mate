@@ -39,7 +39,7 @@ const ReviewSlider = ({ refreshSignal = 0 }) => {
 
                         return (
                             <CarouselItem key={idx} className="p-2 sm:basis-full md:basis-1/2 lg:basis-1/3">
-                                <Card className="h-full flex flex-col justify-between rounded-lg overflow-hidden  bg-gradient-to-r from-orange-50 to-orange-100">
+                                <Card className="h-full flex flex-col justify-between rounded-lg overflow-hidden  bg-gradient-to-r from-pink-100 to-orange-100">
                                     <CardContent className="flex flex-col h-full p-6">
                                         <FaQuoteLeft className="text-3xl text-orange-200 mb-4" />
                                         <p className="text-gray-700 flex-1 mb-6">“{review.comment}”</p>

@@ -5,6 +5,7 @@ import MichelinSection from "./MichelinSection/MichelinSection";
 import BookingSection from "./BookingSection/BookingSection";
 import SliderByCategory from "./SliderByCategory/SliderByCategory";
 import ReviewSlider from "../Components/Reviews/ReviewSlider";
+import EndProblem from "../Components/EndProblem/EndProblem";
 
 const Homepage = () => {
   return (
@@ -15,6 +16,7 @@ const Homepage = () => {
       <SliderByCategory></SliderByCategory>
       <BookingSection></BookingSection>
       <ReviewSlider></ReviewSlider>
+      <EndProblem></EndProblem>
     </div>
   );
 };
