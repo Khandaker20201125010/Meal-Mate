@@ -247,7 +247,7 @@ const DetailspageBody = () => {
                                                         src={item.image}
                                                         alt={item.title}
                                                         fill
-                                                        className="object-cover z-0"
+                                                        className="object-cover z-0 "
                                                     />
                                                     <div className="absolute inset-0 transform -translate-y-full group-hover:translate-y-0 transition-all duration-500 bg-black/40 z-20 flex items-center justify-center">
                                                         <p className="text-white font-semibold text-lg">{item.title}</p>
