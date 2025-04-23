@@ -7,6 +7,7 @@ const links = [
   { name: "Appointment", href: "/appointment" },
   { name: "Contact Us", href: "/contact" },
   { name: "About", href: "/about" },
+  { name: "Dashboard", href: "/profile" },
 ];
 
 const MobileMenu = ({ isOpen, closeMenu }) => {

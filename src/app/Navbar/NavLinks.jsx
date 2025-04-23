@@ -7,6 +7,7 @@ const links = [
   { name: "Menu", href: "/menu" },
   { name: "Contacts", href: "/contact" },
   { name: "About Us", href: "/about" },
+
 ];
 
 const NavLinks = ({ textColor, isTop }) => {

@@ -8,6 +8,10 @@ import Logo from "./Logo";
 import NavLinks from "./NavLinks";
 import MobileMenu from "./MobileMenu";
 import { signOut, useSession } from "next-auth/react";
+import Image from "next/image";
+import Link from "next/link";
+import { MdSpaceDashboard } from "react-icons/md";
+import { LuLogOut } from "react-icons/lu";
 
 const NavbarBody = () => {
   const pathname = usePathname();
@@ -61,25 +65,64 @@ const NavbarBody = () => {
       <div className="navbar px-4 py-2 flex justify-between items-center">
         <Logo />
         <div className="hidden lg:flex ">
-        <NavLinks textColor={textColor} isTop={lastScrollY === 0} />
+          <NavLinks textColor={textColor} isTop={lastScrollY === 0} />
         </div>
 
         <div className="hidden lg:block">
-          {session ? (
-            <button
-              onClick={() => signOut()}
-              className={` ${buttonColor}  mx-4 rounded-full btn px-6 py-2 border border-white text-white font-semibold tracking-wider backdrop-blur-lg bg-opacity-75 bg-transparent transition hover:bg-gradient-to-r from-pink-500 to-orange-500`}
-            >
-              Logout →
-            </button>
-          ) : (
+          {!session ? (
             <a href="/login" className={`${buttonColor} border-blue-900 mx-4 rounded-full`}>
               <button className="btn px-6 py-2 border border-white text-white font-semibold tracking-wider rounded-full backdrop-blur-lg bg-opacity-75 bg-transparent transition hover:bg-gradient-to-r from-pink-500 to-orange-500">
                 Login →
               </button>
             </a>
+          ) : (
+            <div className="dropdown dropdown-end mx-16">
+              {/* Avatar Button */}
+              <div
+                tabIndex={0}
+                role="button"
+                className="btn btn-ghost btn-circle avatar border border-white"
+              >
+                <div className="w-10 h-10 rounded-full overflow-hidden relative border border-white">
+                  <Image
+                    src={
+                      session?.user?.image ||
+                      "https://i.ibb.co.com/PfGH0x7/c-HJpdm-F0-ZS9sci9pb-WFn-ZXMvd2-Vic2l0-ZS8y-MDIz-LTAx-L3-Jt-Nj-A5-LXNvb-Glka-WNvbi13-LTAw-Mi1w-Ln-Bu.jpg"
+                    }
+                    alt="User Avatar"
+                    fill
+                    sizes="40px"
+                    className="object-cover"
+                  />
+                </div>
+              </div>
+
+              {/* Dropdown Content */}
+              <ul
+                tabIndex={0}
+                className="menu menu-sm dropdown-content bg-base-100 text-black rounded-box shadow w-52 mt-2 z-[999]"
+              >
+                <li className="px-4 py-2 font-medium border-b border-gray-200">
+                  {session?.user?.email}
+                </li>
+                <li>
+                  <Link href="/dashboard" className="flex items-center gap-2 px-4 py-2 hover:bg-gray-100 rounded-md">
+                    <MdSpaceDashboard /> Dashboard
+                  </Link>
+                </li>
+                <li>
+                  <button
+                    onClick={() => signOut()}
+                    className="flex items-center gap-2 px-4 py-2 hover:bg-gray-100 w-full text-left rounded-md"
+                  >
+                    <LuLogOut /> Logout
+                  </button>
+                </li>
+              </ul>
+            </div>
           )}
         </div>
+
 
         <div className="lg:hidden">
           <button onClick={() => setIsOpen(!isOpen)}>
