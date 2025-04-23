@@ -13,7 +13,7 @@ export async function middleware(req) {
 
   const { role, email } = token;
 
-  const adminRoutes = ["/api/add-menu", "/api/manage-users", "/api/manage-menu", "/api/manage-bookings", "/dashboard/add-menu", "/dashboard/manage-users", "/dashboard/manage-menu", "/dashboard/bookings"];
+  const adminRoutes = ["/api/add-menu", "/api/manage-users", "/api/manage-menu", "/api/manage-bookings", "/dashboard/add-menu", "/dashboard/manage-users", "/dashboard/manage-menu", "/dashboard/all-bookings"];
   const customerRoutes = [
     "/api/my-orders",
     "/api/my-bookings",

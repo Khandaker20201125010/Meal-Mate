@@ -10,30 +10,50 @@ import Menu from "@/src/models/Menu";
 // ========== CREATE BOOKING ==========
 export async function POST(req) {
     await connectDB();
-
+  
     try {
-        const body = await req.json();
-        const { menuId, quantity } = body;
-
-        const menu = await Menu.findById(menuId);
-        if (!menu || menu.quantity < quantity) {
-            return NextResponse.json({ error: 'Not enough items in stock for booking.' }, { status: 400 });
-        }
-
-        const newBooking = new Booking(body);
-        await newBooking.save();
-
-        await Menu.findByIdAndUpdate(menuId, {
-            $inc: { quantity: -quantity },
-        });
-
-        return NextResponse.json(newBooking, { status: 201 });
+      const body = await req.json();
+      console.log("🔍 [POST /api/bookings] Received body:", body);
+  
+      const { menuId, quantity, userEmail } = body;
+      if (!menuId || !quantity || !userEmail) {
+        return NextResponse.json(
+          { error: "Missing required fields (menuId, quantity or userEmail)" },
+          { status: 400 }
+        );
+      }
+  
+      const menu = await Menu.findById(menuId);
+      if (!menu) {
+        return NextResponse.json({ error: "Menu item not found" }, { status: 404 });
+      }
+      if (menu.quantity < quantity) {
+        return NextResponse.json(
+          { error: "Not enough stock for booking" },
+          { status: 400 }
+        );
+      }
+  
+      // Force valid status (falls back to 'booked')
+      const validStatuses = ["booked","completed","cancelled"];
+      const status = validStatuses.includes(body.status) ? body.status : "booked";
+  
+      const newBooking = new Booking({ ...body, status });
+      await newBooking.save();
+      console.log("✅ [POST /api/bookings] Saved booking:", newBooking);
+  
+      // Decrement stock
+      await Menu.findByIdAndUpdate(menuId, { $inc: { quantity: -quantity } });
+  
+      return NextResponse.json(newBooking, { status: 201 });
     } catch (err) {
-        console.error('POST error:', err);
-        return NextResponse.json({ error: 'Failed to book item.' }, { status: 500 });
+      console.error("❌ [POST /api/bookings] Error:", err);
+      return NextResponse.json(
+        { error: err.message || "Failed to book item" },
+        { status: 500 }
+      );
     }
-}
-
+  }
 // ========== GET BOOKINGS ==========
 export async function GET(req) {
     await connectDB();

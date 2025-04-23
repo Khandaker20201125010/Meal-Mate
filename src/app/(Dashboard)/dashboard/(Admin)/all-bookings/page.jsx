@@ -1,10 +1,10 @@
 import React from 'react';
-import MyOrder from '../../../Componenets/MyOrder/MyOrder';
+import AllBookings from '../../../Componenets/All-bookings/AllBookings';
 
 const page = () => {
     return (
         <div>
-            <MyOrder></MyOrder>
+            <AllBookings></AllBookings>
         </div>
     );
 };

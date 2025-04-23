@@ -37,7 +37,7 @@ const adminMenu = [
   { title: "Add Menu", url: "/dashboard/add-menu", icon: UtensilsCrossed },
   { title: "Manage User", url: "/dashboard/manage-users", icon: Users },
   { title: "Manage Menu", url: "/dashboard/manage-menu", icon: ClipboardList },
-  { title: "All Bookings", url: "/dashboard/bookings", icon: CalendarCheck },
+  { title: "All Bookings", url: "/dashboard/all-bookings", icon: CalendarCheck },
 ];
 
 // User-only menu

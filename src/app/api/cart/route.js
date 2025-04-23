@@ -43,3 +43,22 @@ export async function POST(req) {
         return NextResponse.json({ error: 'Failed to add to cart', message: err.message }, { status: 500 });
     }
 }
+export async function GET(req) {
+    try {
+        await connectDB();
+
+        const { searchParams } = new URL(req.url);
+        const userEmail = searchParams.get("userEmail");
+
+        if (!userEmail) {
+            return NextResponse.json({ error: "Missing userEmail parameter" }, { status: 400 });
+        }
+
+        const carts = await Cart.find({ userEmail }).sort({ createdAt: -1 });
+
+        return NextResponse.json(carts);
+    } catch (err) {
+        console.error('Error fetching cart items:', err);
+        return NextResponse.json({ error: 'Failed to fetch cart items' }, { status: 500 });
+    }
+}

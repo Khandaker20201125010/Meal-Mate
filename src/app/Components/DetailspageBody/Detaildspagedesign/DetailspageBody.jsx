@@ -117,15 +117,25 @@ const DetailspageBody = () => {
 
         if (result.isConfirmed) {
             try {
-                await axios.post(`${process.env.NEXT_PUBLIC_URL}/api/bookings`, {
-                    userEmail: session?.user?.email,
-                    menuId: menu._id,
-                    title: menu.title,
+                const bookingData = {
+                    userEmail: session.user.email,
+                    menuId:    menu._id,
+                    title:     menu.title,
                     quantity,
                     size,
-                    price: price * quantity,
-                    image: menu.image,
-                });
+                    price:     price * quantity,
+                    image:     menu.image,
+                    status:    'booked',
+                  };
+
+                console.log("Sending booking data:", bookingData); // Debug log
+
+                const response = await axios.post(
+                    `${process.env.NEXT_PUBLIC_URL}/api/bookings`,
+                    bookingData
+                );
+
+                console.log("Booking response:", response.data); // Debug log
 
                 setMenu(prev => ({
                     ...prev,
@@ -134,12 +144,15 @@ const DetailspageBody = () => {
 
                 Swal.fire('Booked!', 'Your booking was successful.', 'success');
             } catch (err) {
-                console.error(err);
-                Swal.fire('Error', 'Could not complete booking.', 'error');
+                console.error("Booking error:", err.response?.data || err.message);
+                Swal.fire(
+                    'Error',
+                    err.response?.data?.error || 'Could not complete booking.',
+                    'error'
+                );
             }
         }
     };
-
     if (loading) {
         return <div className="p-4 text-center">Loading...</div>;
     }
