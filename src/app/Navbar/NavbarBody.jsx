@@ -106,7 +106,7 @@ const NavbarBody = () => {
                   {session?.user?.email}
                 </li>
                 <li>
-                  <Link href="/dashboard" className="flex items-center gap-2 px-4 py-2 hover:bg-gray-100 rounded-md">
+                  <Link href="/dashboard/profile" className="flex items-center gap-2 px-4 py-2 hover:bg-gray-100 rounded-md">
                     <MdSpaceDashboard /> Dashboard
                   </Link>
                 </li>

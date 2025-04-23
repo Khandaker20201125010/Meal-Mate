@@ -1,11 +1,12 @@
 import React from 'react';
 import ManageMenuList from '../../../Componenets/ManageMenuList/ManageMenuList';
+import AdminGuard from '@/src/services/AdminGuard';
 
 const page = () => {
     
     return (
         <div>
-            <ManageMenuList></ManageMenuList>
+           <AdminGuard> <ManageMenuList></ManageMenuList></AdminGuard>
         </div>
     );
 };

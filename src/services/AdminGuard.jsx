@@ -13,7 +13,7 @@ export default function AdminGuard({ children }) {
     }
   }, [status, session, router]);
 
-  if (status === "loading") return <p>Loading...</p>;
+  if (status === "loading") return null;
   if (session?.user?.role !== "admin") return null;
 
   return <>{children}</>;

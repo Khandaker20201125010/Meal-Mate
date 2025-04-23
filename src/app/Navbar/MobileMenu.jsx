@@ -8,7 +8,7 @@ const links = [
   { name: "Gallery", href: "/gallery" },
   { name: "Contacts", href: "/contact" },
   { name: "About Us", href: "/about" },
-  { name: "Dashboard", href: "/profile" },
+  { name: "Dashboard", href: "/dashboard/profile" },
 ];
 
 const MobileMenu = ({ isOpen, closeMenu }) => {

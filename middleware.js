@@ -14,7 +14,13 @@ export async function middleware(req) {
   const { role, email } = token;
 
   const adminRoutes = ["/api/add-menu", "/api/manage-users", "/api/manage-menu", "/api/manage-bookings", "/dashboard/add-menu", "/dashboard/manage-users", "/dashboard/manage-menu", "/dashboard/bookings"];
-  const customerRoutes = ["/api/my-orders", "/api/my-bookings", "/api/payment-history", "/dashboard/customer/orders", "/dashboard/customer/bookings"];
+  const customerRoutes = [
+    "/api/my-orders",
+    "/api/my-bookings",
+    "/dashboard/my-orders",
+    "/dashboard/my-bookings",
+    "/dashboard/profile"
+  ];
 
   // Admin only access
   if (adminRoutes.some((route) => pathname.startsWith(route))) {

@@ -22,7 +22,7 @@ const GalleryImg = () => {
                     </p>
                 </div>
             </div>
-            <div>
+            <div className="bg-gradient-to-b from-[#f4f0e8] to-[#f4f0e8]">
                 <div className="text-center px-4 py-12 sm:py-16 md:py-20">
                     <p className="text-orange-400 text-sm sm:text-base md:text-lg">
                         A Taste of Our Passion
@@ -34,7 +34,7 @@ const GalleryImg = () => {
                         Discover the harmony of flavor and craftsmanship in every dish we serve.
                     </p>
                 </div>
-        
+
                 <div>  <BentoGridGallery></BentoGridGallery></div>
             </div>
 
