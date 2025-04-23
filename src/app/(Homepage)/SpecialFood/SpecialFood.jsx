@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/pagination";
-import { Pagination ,Autoplay  } from "swiper/modules";
+import { Pagination, Autoplay } from "swiper/modules";
 import axios from "axios";
 import Image from "next/image";
 import Link from "next/link";
@@ -37,10 +37,10 @@ const SpecialFood = () => {
       <div className="container mx-auto flex flex-col-reverse lg:flex-row items-center justify-between px-4 py-8 gap-6">
         <div className="text-center lg:text-left">
           <h1 className="font-bold text-xl text-gray-700">Special Food</h1>
-            <h1 className="mt-5 font-bold text-4xl md:text-5xl text-gray-900 cursor-pointer">
-              View Our <br className="hidden md:block" />
-              Menu
-            </h1>
+          <h1 className="mt-5 font-bold text-4xl md:text-5xl text-gray-900 cursor-pointer">
+            View Our <br className="hidden md:block" />
+            Menu
+          </h1>
         </div>
 
         <div className="float-animation bg-orange-600 text-white flex items-center justify-center p-6 w-28 h-28 mt-5 rounded-full cursor-pointer hover:bg-orange-700 transition-all">
@@ -50,7 +50,7 @@ const SpecialFood = () => {
 
       <div className="w-full px-4 py-8">
         <Swiper
-         modules={[ Autoplay]}
+          modules={[Autoplay]}
           slidesPerView={1}
           spaceBetween={20}
           loop={true}
@@ -86,7 +86,8 @@ const SpecialFood = () => {
                     <span>Small : {item.smallPrice}$</span>
                     <span>Large : {item.largePrice}$</span>
                   </div>
-                  <button className="btn btn-sm rounded-md bg-orange-600 text-white mt-1 hover:bg-orange-600">View Details</button>
+                  <Link href={`/menu/${item._id}`}>
+                    <button className="btn btn-sm rounded-md bg-orange-600 text-white mt-1 hover:bg-orange-600">View Details</button></Link>
                 </div>
               </SwiperSlide>
             ))
