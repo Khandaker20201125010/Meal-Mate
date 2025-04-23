@@ -66,10 +66,12 @@ const MyOrder = () => {
                     <thead className="bg-gray-200">
                         <tr>
                             <th className="py-2 px-4 text-left">Image</th>
+                            <th className="py-2 px-4 text-left">Image</th>
                             <th className="py-2 px-4 text-left">Title</th>
                             <th className="py-2 px-4 text-left">Size</th>
                             <th className="py-2 px-4 text-left">Price</th>
                             <th className="py-2 px-4 text-left">Quantity</th>
+                            <th className="py-2 px-4 text-left">Status</th>
                             <th className="py-2 px-4 text-left">Actions</th>
                         </tr>
                     </thead>
@@ -91,6 +93,7 @@ const MyOrder = () => {
                                 <td className="py-2 px-4">{Cart.size}</td>
                                 <td className="py-2 px-4">${Cart.price}</td>
                                 <td className="py-2 px-4">{Cart.quantity}</td>
+                                <td className="py-2 px-4 uppercase text-green-400">{Cart.status}</td>
                                 <td className="py-2 px-4 space-x-2">
                                     <button
                                         onClick={() => handleDelete(Cart._id)}

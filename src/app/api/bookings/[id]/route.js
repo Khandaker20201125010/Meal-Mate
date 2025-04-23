@@ -30,3 +30,43 @@ export async function DELETE(req, { params }) {
         return NextResponse.json({ error: 'Failed to cancel booking' }, { status: 500 });
     }
 }
+export async function PATCH(req, { params }) {
+    await connectDB();
+
+    try {
+        const { id } = params;
+        const { status } = await req.json();
+
+        const booking = await Booking.findByIdAndUpdate(
+            id,
+            { status },
+            { new: true }
+        );
+
+        if (!booking) {
+            return NextResponse.json({ error: 'Booking not found' }, { status: 404 });
+        }
+
+        return NextResponse.json(booking);
+    } catch (err) {
+        console.error('PATCH error:', err);
+        return NextResponse.json({ error: 'Failed to update booking' }, { status: 500 });
+    }
+}
+export async function GET(req, { params }) {
+    await connectDB();
+
+    try {
+        const { id } = params;
+        const booking = await Booking.findById(id);
+
+        if (!booking) {
+            return NextResponse.json({ error: 'Booking not found' }, { status: 404 });
+        }
+
+        return NextResponse.json(booking);
+    } catch (err) {
+        console.error('GET error:', err);
+        return NextResponse.json({ error: 'Failed to fetch booking' }, { status: 500 });
+    }
+}

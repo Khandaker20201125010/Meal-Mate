@@ -34,6 +34,7 @@ const MyBookings = () => {
         }
     }, [session, status]);
 
+
     const handleDelete = (id) => {
         Swal.fire({
             title: 'Are you sure?',
@@ -56,6 +57,32 @@ const MyBookings = () => {
             }
         });
     };
+    const handleStatusUpdate = (id) => {
+        Swal.fire({
+            title: 'Request Order?',
+            text: "Are you sure you want to request this order?",
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonText: 'Yes, request it!',
+        }).then((result) => {
+            if (result.isConfirmed) {
+                axios.patch(`/api/bookings/${id}`, { status: 'requested' })
+                    .then(() => {
+                        setMyBookings((prev) =>
+                            prev.map((booking) =>
+                                booking._id === id ? { ...booking, status: 'requested' } : booking
+                            )
+                        );
+                        Swal.fire('Requested!', 'Your order has been requested.', 'success');
+                    })
+                    .catch(() => {
+                        Swal.fire('Error!', 'Failed to request order.', 'error');
+                    });
+            }
+        });
+    };
+
+
 
     if (loading) return <p>Loading...</p>;
     if (error) return <p>{error}</p>;
@@ -72,6 +99,7 @@ const MyBookings = () => {
                             <th className="py-2 px-4 text-left">Size</th>
                             <th className="py-2 px-4 text-left">Price</th>
                             <th className="py-2 px-4 text-left">Quantity</th>
+                            <th className="py-2 px-4 text-left">Status</th>
                             <th className="py-2 px-4 text-left">Actions</th>
                         </tr>
                     </thead>
@@ -93,6 +121,20 @@ const MyBookings = () => {
                                 <td className="py-2 px-4">{booking.size}</td>
                                 <td className="py-2 px-4">${booking.price}</td>
                                 <td className="py-2 px-4">{booking.quantity}</td>
+                                <td className="py-2 px-4">
+                                    {booking.status === 'requested' ? (
+                                        <span className="bg-blue-100 text-blue-800 px-3 py-1 rounded">
+                                            Requested
+                                        </span>
+                                    ) : (
+                                        <button
+                                            onClick={() => handleStatusUpdate(booking._id)}
+                                            className="bg-yellow-100 text-yellow-800 px-3 py-1 rounded hover:bg-yellow-200"
+                                        >
+                                            Request Order
+                                        </button>
+                                    )}
+                                </td>
                                 <td className="py-2 px-4 space-x-2">
                                     <button
                                         onClick={() => handleDelete(booking._id)}
@@ -106,7 +148,7 @@ const MyBookings = () => {
                         {myBookings.length === 0 && (
                             <tr>
                                 <td colSpan="6" className="py-4 text-center text-gray-500">
-                                   You didn't make any bookings
+                                    You didn't make any bookings
                                 </td>
                             </tr>
                         )}
