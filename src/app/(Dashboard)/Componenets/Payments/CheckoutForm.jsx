@@ -1,107 +1,136 @@
 // components/CheckoutForm.js
 'use client';
-import React, { useState, useEffect } from 'react';
-import { CardNumberElement, CardCvcElement, CardExpiryElement, useStripe, useElements } from '@stripe/react-stripe-js';
+import React, { useState, useEffect } from "react";
+import {
+  CardNumberElement,
+  CardCvcElement,
+  CardExpiryElement,
+  useStripe,
+  useElements
+} from "@stripe/react-stripe-js";
 
-const CheckoutForm = ({ price, onSuccess }) => {
+const CheckoutForm = ({ price, email, items, onSuccess }) => {
   const stripe = useStripe();
   const elements = useElements();
-
-  const [clientSecret, setClientSecret] = useState('');
-  const [cardError, setCardError] = useState('');
-  const [success, setSuccess] = useState('');
+  const [clientSecret, setClientSecret] = useState("");
+  const [cardError, setCardError] = useState("");
+  const [success, setSuccess] = useState("");
   const [processing, setProcessing] = useState(false);
-  const [transactionId, setTransactionId] = useState('');
+  const [txId, setTxId] = useState("");
 
   useEffect(() => {
-    if (price) {
-      fetch('/api/create-payment-intent', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ price }),
-      })
-        .then(res => res.json())
-        .then(data => setClientSecret(data.clientSecret));
-    }
+    if (!price) return;
+    fetch("/api/create-payment-intent", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ price })
+    })
+      .then(r => r.json())
+      .then(d => setClientSecret(d.clientSecret));
   }, [price]);
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async e => {
     e.preventDefault();
     setProcessing(true);
+    setCardError("");
 
-    if (!stripe || !elements) return;
+    if (!stripe || !elements || !clientSecret) return;
 
-    const card = elements.getElement(CardNumberElement);
-    const { error, paymentIntent } = await stripe.confirmCardPayment(clientSecret, {
-      payment_method: {
-        card: card,
-        billing_details: {
-          name: 'Test User', // Replace with user info
-          email: 'user@example.com',
-        },
-      },
-    });
-
-    if (error) {
-      setCardError(error.message);
-      setProcessing(false);
-    } else if (paymentIntent.status === 'succeeded') {
-      setSuccess('Payment successful!');
-      setTransactionId(paymentIntent.id);
-      setProcessing(false);
-
-      // Optional: save to your backend
-      fetch('/api/save-payment', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          price,
-          transactionId: paymentIntent.id,
-          email: 'user@example.com',
-        }),
+    try {
+      const card = elements.getElement(CardNumberElement);
+      const { error, paymentIntent } = await stripe.confirmCardPayment(clientSecret, {
+        payment_method: {
+          card,
+          billing_details: { name: email.split("@")[0], email }
+        }
       });
 
-      onSuccess?.(); // optional callback
+      if (error) {
+        setCardError(error.message);
+        setProcessing(false);
+        return;
+      }
+
+      if (paymentIntent.status === "succeeded") {
+        setSuccess("Payment successful!");
+        setTxId(paymentIntent.id);
+
+        // 1. Save payment record
+        const paymentResponse = await fetch("/api/payments", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            email,
+            transactionId: paymentIntent.id,
+            items: items.map(item => ({
+              menuId: item.menuId,
+              title: item.title,
+              size: item.size,
+              quantity: item.quantity,
+              unitPrice: item.price,
+            })),
+            amount: price
+          })
+        });
+
+        if (!paymentResponse.ok) {
+          throw new Error('Payment recording failed');
+        }
+
+        // 2. Clear all cart items for this user
+        const clearCartResponse = await fetch("/api/cart/clear", {
+          method: "DELETE",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email })
+        });
+
+        if (!clearCartResponse.ok) {
+          throw new Error('Cart clearing failed');
+        }
+
+        // 3. Notify parent component
+        onSuccess();
+      }
+    } catch (err) {
+      console.error("Payment processing error:", err);
+      setCardError(err.message || "Payment succeeded but there was an issue with order processing");
+    } finally {
+      setProcessing(false);
     }
   };
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
       <div>
-        <label className="block text-sm font-medium text-gray-700">Card Number</label>
-        <div className="border rounded p-3">
-          <CardNumberElement className="w-full" />
+        <label className="block text-sm">Card Number</label>
+        <div className="border rounded p-2">
+          <CardNumberElement />
         </div>
       </div>
-
       <div>
-        <label className="block text-sm font-medium text-gray-700">Expiry</label>
-        <div className="border rounded p-3">
+        <label className="block text-sm">Expiry</label>
+        <div className="border rounded p-2">
           <CardExpiryElement />
         </div>
       </div>
-
       <div>
-        <label className="block text-sm font-medium text-gray-700">CVC</label>
-        <div className="border rounded p-3">
+        <label className="block text-sm">CVC</label>
+        <div className="border rounded p-2">
           <CardCvcElement />
         </div>
       </div>
-
       <button
         type="submit"
-        className="bg-blue-600 text-white px-4 py-2 rounded"
-        disabled={!stripe || !clientSecret || processing}
+        className="btn bg-orange-600 text-white"
+        disabled={!stripe || processing}
       >
-        Pay ${price}
+        Pay ${price.toFixed(2)}
       </button>
-
-      {cardError && <p className="text-red-500 mt-2">{cardError}</p>}
+      {cardError && <p className="text-red-500">{cardError}</p>}
       {success && (
-        <div className="text-green-600 mt-2">
-          <p>{success}</p>
-          <p>Transaction ID: <strong>{transactionId}</strong></p>
-        </div>
+        <p className="text-green-500">
+          {success} (ID: <strong>{txId}</strong>)
+        </p>
       )}
     </form>
   );

@@ -6,12 +6,15 @@ import { useSession } from 'next-auth/react';
 import Image from 'next/image';
 import React, { useEffect, useState } from 'react';
 import Swal from 'sweetalert2';
+import Payment from '../Payments/Payment';
 
 const MyOrder = () => {
     const [myCarts, setMyCarts] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const { data: session, status } = useSession();
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [selectedBooking, setSelectedBooking] = useState(null);
     const totalAmount = myCarts.reduce((acc, item) => acc + item.price * item.quantity, 0);
     const totalQuantity = myCarts.reduce((acc, item) => acc + item.quantity, 0);
     const fetchCarts = async () => {
@@ -70,8 +73,22 @@ const MyOrder = () => {
                     <div className="text-right  text-lg font-semibold border-b-2 py-2">
                         <span className='mx-2'>{totalQuantity} Menu </span> Total Amount: <span className='text-red-500 text-xl'>${totalAmount.toFixed(2)}</span>
                     </div>
-                    <div className='text-right m-2'>
-                        <button data-tip="Pay Your Bill" className='tooltip  tooltip-warning btn  btn-sm bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-md'>Pay</button>
+                    <div className='flex justify-end'>
+                        <button
+                            data-tip="Pay Your Bill"
+                            className=' tooltip tooltip-warning btn btn-sm bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-md'
+                            onClick={() => {
+                                setSelectedBooking({
+                                    price: totalAmount,
+                                    quantity: totalQuantity,
+                                    items: myCarts,
+                                    email: session?.user?.email,
+                                });
+                                setIsModalOpen(true);
+                            }}
+                        >
+                            Pay
+                        </button>
                     </div>
                 </div>
             </div>
@@ -128,8 +145,10 @@ const MyOrder = () => {
             {isModalOpen && (
                 <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
                     {selectedBooking && (
-                        // Pass the onPaymentSuccess callback as a prop
-                        <Payment booked={selectedBooking} onPaymentSuccess={handlePaymentSuccess} />
+                        <Payment booked={selectedBooking} onPaymentSuccess={() => {
+                            setIsModalOpen(false);
+                            fetchCarts(); 
+                        }} />
                     )}
                 </Modal>
             )}

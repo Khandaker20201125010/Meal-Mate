@@ -100,25 +100,34 @@ const NavbarBody = () => {
               {/* Dropdown Content */}
               <ul
                 tabIndex={0}
-                className="menu menu-sm dropdown-content bg-base-100 text-black rounded-box shadow w-52 mt-2 z-[999]"
+                className="menu menu-lg dropdown-content bg-white text-gray-800 rounded-xl shadow-lg w-72 mt-2 z-[999] border border-gray-200 "
               >
-                <li className="px-4 py-2 font-medium border-b border-gray-200">
-                  {session?.user?.email}
+                <li className="px-4 py-3  dark:bg-gray-700">
+                  <p className="text-sm font-semibold text-gray-900 dark:text-white">
+                    {session?.user?.name || session?.user?.email.split('@')[0]}
+                  </p>
+                  <p className="text-xs text-gray-600 dark:text-gray-300">
+                    {session?.user?.email}
+                  </p>
                 </li>
                 <li>
-                  <Link href="/dashboard/profile" className="flex items-center gap-2 px-4 py-2 hover:bg-gray-100 rounded-md">
-                    <MdSpaceDashboard /> Dashboard
+                  <Link
+                    href="/dashboard/profile"
+                    className="flex items-center gap-3 px-5 py-3 hover:bg-gray-100 transition rounded-lg text-sm"
+                  >
+                    <MdSpaceDashboard className="text-lg" /> Dashboard
                   </Link>
                 </li>
                 <li>
                   <button
                     onClick={() => signOut()}
-                    className="flex items-center gap-2 px-4 py-2 hover:bg-gray-100 w-full text-left rounded-md"
+                    className="flex items-center gap-3 px-5 py-3 hover:bg-gray-100 transition w-full text-left rounded-lg text-sm"
                   >
-                    <LuLogOut /> Logout
+                    <LuLogOut className="text-lg" /> Logout
                   </button>
                 </li>
               </ul>
+
             </div>
           )}
         </div>
