@@ -119,15 +119,23 @@ const AdminDashboard = () => {
 
     return (
         <div className="p-6 bg-gray-50 min-h-screen">
-            <div className="flex justify-between items-center mb-8">
-                <h1 className="text-3xl font-bold text-gray-800">Admin Dashboard</h1>
-                <div className="flex items-center gap-2">
-                    <span className="text-gray-600">{session?.user?.email}</span>
-                    <div className="w-10 h-10 rounded-full bg-blue-500 flex items-center justify-center text-white">
-                        {session?.user?.name?.charAt(0) || 'A'}
+            <div className="flex flex-col sm:flex-row sm:justify-between items-start sm:items-center gap-4 mb-6 sm:mb-8">
+                {/* Title */}
+                <h1 className="text-2xl sm:text-3xl font-bold text-gray-800">
+                    Admin Dashboard
+                </h1>
+
+                {/* User Info */}
+                <div className="flex items-center gap-2 sm:gap-3 w-full sm:w-auto justify-between sm:justify-end">
+                    <span className="text-sm sm:text-base text-gray-600 truncate max-w-[150px] xs:max-w-[200px] sm:max-w-none">
+                        {session?.user?.email}
+                    </span>
+                    <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-blue-500 flex items-center justify-center text-white text-sm sm:text-base font-semibold">
+                        {session?.user?.name?.charAt(0)?.toUpperCase() || 'A'}
                     </div>
                 </div>
             </div>
+
 
             {/* Stats Cards */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
@@ -158,86 +166,137 @@ const AdminDashboard = () => {
             </div>
 
             {/* Charts and Recent Data */}
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
-                {/* Category Performance Chart */}
-                <div className="bg-white p-6 rounded-lg shadow-sm lg:col-span-2">
-                    <h3 className="text-lg font-bold text-gray-800 text-center">Category Performance</h3>
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6 mb-6 sm:mb-8">
+                {/* Category Performance Chart - Now fully responsive */}
+                <div className="bg-white   rounded-lg shadow-sm lg:col-span-2">
+                    <h3 className="text-base sm:text-lg font-bold text-gray-800 text-center mb-3 sm:mb-4">
+                        Category Performance
+                    </h3>
                     {popularItems.length > 0 ? (
-                        <ResponsiveContainer width="100%" height={500}>
-                            <BarChart
-                                data={popularItems}
-                                margin={{ top: 20, right: 30, left: 20, bottom: 60 }}
-                            >
-                                <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
-                                <XAxis
-                                    dataKey="name"
-                                    angle={-45}
-                                    textAnchor="end"
-                                    height={60}
-                                    tick={{ fontSize: 12 }}
-                                    stroke="#555"
-                                />
-                                <YAxis yAxisId="left" stroke="#555" />
-                                <YAxis yAxisId="right" orientation="right" stroke="#555" />
-                                <Tooltip
-                                    content={({ payload }) => {
-                                        if (payload && payload.length > 1) {
-                                            const { name, quantity, revenue } = payload[0].payload;
-                                            return (
-                                                <div className="bg-white p-2 border border-gray-300 rounded-lg shadow-lg">
-                                                    <p className="text-black"><strong>Item:</strong> {name}</p>
-                                                    <p><strong>Sold:</strong> {quantity}</p>
-                                                    <p><strong>Revenue:</strong> ${revenue.toFixed(2)}</p>
-                                                </div>
-                                            );
-                                        }
-                                        return null;
+                        <div className="w-full h-[450px] sm:h-[450px] md:h-[500px] xl:h-[600px]">
+                            <ResponsiveContainer width="100%" height="100%">
+                                <BarChart
+                                    data={popularItems}
+                                    margin={{
+                                        top: 20,
+                                        right: 10,
+                                        left: 0,
+                                        bottom: window.innerWidth < 640 ? 90 : 60,
                                     }}
-                                />
-                                <Legend verticalAlign="top" height={36} />
-                                <Bar
-                                    yAxisId="left"
-                                    dataKey="quantity"
-                                    name="Items Sold"
-                                    fill="#6366f1"
-                                    barSize={24}
-                                    radius={[8, 8, 0, 0]}
-                                />
-                                <Bar
-                                    yAxisId="right"
-                                    dataKey="revenue"
-                                    name="Revenue"
-                                    fill="#10b981"
-                                    barSize={24}
-                                    radius={[8, 8, 0, 0]}
-                                />
-                            </BarChart>
-                        </ResponsiveContainer>
+                                    barCategoryGap={window.innerWidth < 640 ? 10 : 15}
+                                >
+                                    <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
+                                    <XAxis
+                                        dataKey="name"
+                                        angle={window.innerWidth < 640 ? -90 : -45}
+                                        textAnchor="end"
+                                        height={window.innerWidth < 640 ? 80 : 60}
+                                        tick={{ fontSize: window.innerWidth < 640 ? 10 : 12 }}
+                                        interval={0}
+                                        stroke="#555"
+                                    />
+                                    <YAxis
+                                        yAxisId="left"
+                                        stroke="#555"
+                                        tick={{ fontSize: window.innerWidth < 640 ? 10 : 12 }}
+                                        width={window.innerWidth < 640 ? 40 : 60}
+                                    />
+                                    <YAxis
+                                        yAxisId="right"
+                                        orientation="right"
+                                        stroke="#555"
+                                        tick={{ fontSize: window.innerWidth < 640 ? 10 : 12 }}
+                                        width={window.innerWidth < 640 ? 40 : 60}
+                                    />
+                                    <Tooltip
+                                        content={({ payload }) => {
+                                            if (payload && payload.length > 1) {
+                                                const { name, quantity, revenue } = payload[0].payload;
+                                                return (
+                                                    <div className="bg-white p-2 border border-gray-300 rounded-lg shadow-lg text-xs sm:text-sm">
+                                                        <p className="text-black font-medium">{name}</p>
+                                                        <p><span className="font-medium">Sold:</span> {quantity}</p>
+                                                        <p><span className="font-medium">Revenue:</span> ${revenue.toFixed(2)}</p>
+                                                    </div>
+                                                );
+                                            }
+                                            return null;
+                                        }}
+                                    />
+                                    <Legend
+                                        verticalAlign="bottom"
+                                        height={36}
+                                        wrapperStyle={{
+                                            fontSize: window.innerWidth < 640 ? '10px' : '12px',
+                                            paddingTop: '10px'
+                                        }}
+                                    />
+                                    <Bar
+                                        yAxisId="left"
+                                        dataKey="quantity"
+                                        name="Items Sold"
+                                        fill="#FFA500"
+                                        barSize={window.innerWidth < 640 ? 40 : 50}
+                                        radius={[4, 4, 0, 0]}
+                                    />
+                                    <Bar
+                                        yAxisId="right"
+                                        dataKey="revenue"
+                                        name="Revenue"
+                                        fill="#10b981"
+                                        barSize={window.innerWidth < 640 ? 40 : 50}
+                                        radius={[4, 4, 0, 0]}
+                                    />
+                                </BarChart>
+                            </ResponsiveContainer>
+                        </div>
                     ) : (
-                        <p className="text-center text-gray-600 mt-4">
+                        <p className="text-center text-gray-600 py-8 text-sm sm:text-base">
                             {error ? "Error loading category data" : "No category data available"}
                         </p>
                     )}
                 </div>
 
-                {/* Recent Payments */}
-                <div className="bg-white p-6 rounded-lg shadow-sm">
-                    <h2 className="text-xl font-semibold mb-4">Recent Payments</h2>
-                    <div className="space-y-4">
+                {/* Recent Payments - Responsive version */}
+                <div className="bg-white p-4 sm:p-6 rounded-lg shadow-sm">
+                    <h2 className="text-base sm:text-lg lg:text-xl font-semibold mb-3 sm:mb-4">
+                        Recent Payments
+                    </h2>
+
+                    {/* Scrollable container */}
+                    <div className="space-y-3 sm:space-y-4 max-h-[500px] overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-200 hover:scrollbar-thumb-gray-500">
                         {recentPayments.map(payment => (
-                            <div key={`payment-${payment._id}-${new Date(payment.createdAt).getTime()}`} className="border-b pb-3">
-                                <div className="flex justify-between">
-                                    <span className="font-medium">{payment.email}</span>
-                                    <span className="text-green-600">${payment.amount}</span>
+                            <div key={`payment-${payment._id}`} className="border-b pb-2 sm:pb-3">
+                                <div className="flex justify-between items-start">
+                                    <span className="font-medium text-sm sm:text-base truncate max-w-[120px] md:max-w-[180px]">
+                                        {payment.email}
+                                    </span>
+                                    <span className="text-green-600 text-sm sm:text-base whitespace-nowrap">
+                                        ${payment.amount}
+                                    </span>
                                 </div>
-                                <div className="text-sm text-gray-500">
-                                    {new Date(payment.createdAt).toLocaleDateString()}
+                                <div className="text-xs sm:text-sm text-gray-500 mt-1">
+                                    {new Date(payment.createdAt).toLocaleDateString('en-US', {
+                                        month: 'short',
+                                        day: 'numeric',
+                                        year:
+                                            typeof window !== 'undefined' && window.innerWidth < 640
+                                                ? undefined
+                                                : 'numeric',
+                                    })}
                                 </div>
-                                <div className="text-sm">
+                                <div className="mt-1 text-xs sm:text-sm">
                                     {payment.items.map((item, index) => (
-                                        <div key={`payment-item-${payment._id}-${index}`} className="flex justify-between mt-1">
-                                            <span>{item.title}</span>
-                                            <span>{item.quantity}x ${item.unitPrice}</span>
+                                        <div
+                                            key={`payment-item-${index}`}
+                                            className="flex justify-between mt-1"
+                                        >
+                                            <span className="truncate max-w-[100px] sm:max-w-[150px]">
+                                                {item.title}
+                                            </span>
+                                            <span className="whitespace-nowrap">
+                                                {item.quantity}x ${item.unitPrice}
+                                            </span>
                                         </div>
                                     ))}
                                 </div>
@@ -245,6 +304,7 @@ const AdminDashboard = () => {
                         ))}
                     </div>
                 </div>
+
             </div>
 
             {/* Popular Items */}
