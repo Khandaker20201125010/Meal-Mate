@@ -10,8 +10,11 @@ import {
     FiPieChart
 } from 'react-icons/fi'
 import {
-    BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer
+    BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer,
+    CartesianGrid,
+    Legend
 } from 'recharts'
+import Image from 'next/image'
 
 const AdminDashboard = () => {
     const { data: session } = useSession()
@@ -24,59 +27,95 @@ const AdminDashboard = () => {
     const [recentPayments, setRecentPayments] = useState([])
     const [popularItems, setPopularItems] = useState([])
     const [loading, setLoading] = useState(true)
-
     const [error, setError] = useState(null)
+
     useEffect(() => {
-        // In your fetchData function
-        // In your fetchData function
-        // In your fetchData function
         const fetchData = async () => {
             try {
                 setLoading(true);
                 setError(null);
 
-                const [statsRes, paymentsRes, menuStatsRes] = await Promise.all([
+                const [statsRes, paymentsRes, categoryStatsRes] = await Promise.all([
                     axios.get('/api/stats'),
                     axios.get('/api/payments?limit=5'),
-                    axios.get('/api/menus?popular=true')
+                    axios.get('/api/category-stats')
                 ]);
 
                 setStats(statsRes.data);
-                setRecentPayments(paymentsRes.data);
 
-                // Handle the new response structure
-                const responseData = menuStatsRes.data;
+                // Process payments with images
+                const paymentsWithImages = await Promise.all(
+                    paymentsRes.data.map(async (payment) => {
+                        const itemsWithImages = await Promise.all(
+                            payment.items.map(async (item) => {
+                                try {
+                                    const menuRes = await axios.get(`/api/menus/${item.menuId}`);
+                                    // Ensure image URL is properly formatted
+                                    let imageUrl = menuRes.data.image;
+                                    if (imageUrl && !imageUrl.startsWith('http') && !imageUrl.startsWith('/')) {
+                                        imageUrl = `/${imageUrl}`;
+                                    }
+                                    return {
+                                        ...item,
+                                        image: imageUrl || null
+                                    };
+                                } catch (err) {
+                                    console.error(`Error fetching menu item ${item.menuId}:`, err);
+                                    return {
+                                        ...item,
+                                        image: null
+                                    };
+                                }
+                            })
+                        );
+                        return {
+                            ...payment,
+                            items: itemsWithImages
+                        };
+                    })
+                );
 
-                // Set category data for chart
-                if (responseData.categoryStats) {
-                    const categoryData = responseData.categoryStats.map(cat => ({
-                        name: cat._id,
-                        quantity: cat.totalQuantity,
-                        revenue: cat.totalRevenue
-                    }));
-                    setPopularItems(categoryData);
-                }
+                setRecentPayments(paymentsWithImages);
 
-                // Set popular menu items if available
-                if (responseData.popularMenus) {
-                    // You might want to set this to another state variable
-                }
+                // Transform category data for the chart
+                const categoryData = categoryStatsRes.data.map(cat => ({
+                    name: cat._id,
+                    quantity: cat.totalQuantity,
+                    revenue: cat.totalRevenue
+                }));
+
+                setPopularItems(categoryData);
             } catch (error) {
                 console.error('Error fetching data:', error);
                 setError({
                     message: 'Failed to load dashboard data',
                     details: error.response?.data?.error || error.message,
-                    apiError: error.response?.data?.details // Show API error details
+                    apiError: error.response?.data?.details
                 });
             } finally {
                 setLoading(false);
             }
         };
-        fetchData()
-    }, [])
+        fetchData();
+    }, []);
 
+    if (loading) return <div className="p-8">Loading dashboard...</div>;
+    if (error) return <div className="p-8 text-red-500">Error: {error.message}</div>;
 
-    if (loading) return <div className="p-8">Loading dashboard...</div>
+    // Process top selling items
+    const topSellingItems = recentPayments
+        .flatMap(payment => payment.items)
+        .reduce((acc, item) => {
+            const existing = acc.find(i => i.menuId === item.menuId);
+            if (existing) {
+                existing.quantity += item.quantity;
+            } else {
+                acc.push({ ...item });
+            }
+            return acc;
+        }, [])
+        .sort((a, b) => b.quantity - a.quantity)
+        .slice(0, 5);
 
     return (
         <div className="p-6 bg-gray-50 min-h-screen">
@@ -122,53 +161,63 @@ const AdminDashboard = () => {
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
                 {/* Category Performance Chart */}
                 <div className="bg-white p-6 rounded-lg shadow-sm lg:col-span-2">
-                    <h2 className="text-xl font-semibold mb-4">Category Performance</h2>
-                    <div className="h-80">
-                        {popularItems.length > 0 ? (
-                            <ResponsiveContainer width="100%" height="100%">
-                                <BarChart
-                                    data={popularItems}
-                                    margin={{ top: 20, right: 30, left: 20, bottom: 60 }}
-                                >
-                                    <CartesianGrid strokeDasharray="3 3" />
-                                    <XAxis
-                                        dataKey="name"
-                                        angle={-45}
-                                        textAnchor="end"
-                                        height={60}
-                                        tick={{ fontSize: 12 }}
-                                    />
-                                    <YAxis yAxisId="left" orientation="left" />
-                                    <YAxis yAxisId="right" orientation="right" />
-                                    <Tooltip
-                                        formatter={(value, name) => [
-                                            name === 'Revenue' ? `$${value.toFixed(2)}` : value,
-                                            name
-                                        ]}
-                                    />
-                                    <Legend />
-                                    <Bar
-                                        yAxisId="left"
-                                        dataKey="quantity"
-                                        name="Items Sold"
-                                        fill="#4f46e5"
-                                        barSize={20}
-                                    />
-                                    <Bar
-                                        yAxisId="right"
-                                        dataKey="revenue"
-                                        name="Revenue"
-                                        fill="#10b981"
-                                        barSize={20}
-                                    />
-                                </BarChart>
-                            </ResponsiveContainer>
-                        ) : (
-                            <div className="h-full flex items-center justify-center text-gray-500">
-                                No category data available
-                            </div>
-                        )}
-                    </div>
+                    <h3 className="text-lg font-bold text-gray-800 text-center">Category Performance</h3>
+                    {popularItems.length > 0 ? (
+                        <ResponsiveContainer width="100%" height={500}>
+                            <BarChart
+                                data={popularItems}
+                                margin={{ top: 20, right: 30, left: 20, bottom: 60 }}
+                            >
+                                <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
+                                <XAxis
+                                    dataKey="name"
+                                    angle={-45}
+                                    textAnchor="end"
+                                    height={60}
+                                    tick={{ fontSize: 12 }}
+                                    stroke="#555"
+                                />
+                                <YAxis yAxisId="left" stroke="#555" />
+                                <YAxis yAxisId="right" orientation="right" stroke="#555" />
+                                <Tooltip
+                                    content={({ payload }) => {
+                                        if (payload && payload.length > 1) {
+                                            const { name, quantity, revenue } = payload[0].payload;
+                                            return (
+                                                <div className="bg-white p-2 border border-gray-300 rounded-lg shadow-lg">
+                                                    <p className="text-black"><strong>Item:</strong> {name}</p>
+                                                    <p><strong>Sold:</strong> {quantity}</p>
+                                                    <p><strong>Revenue:</strong> ${revenue.toFixed(2)}</p>
+                                                </div>
+                                            );
+                                        }
+                                        return null;
+                                    }}
+                                />
+                                <Legend verticalAlign="top" height={36} />
+                                <Bar
+                                    yAxisId="left"
+                                    dataKey="quantity"
+                                    name="Items Sold"
+                                    fill="#6366f1"
+                                    barSize={24}
+                                    radius={[8, 8, 0, 0]}
+                                />
+                                <Bar
+                                    yAxisId="right"
+                                    dataKey="revenue"
+                                    name="Revenue"
+                                    fill="#10b981"
+                                    barSize={24}
+                                    radius={[8, 8, 0, 0]}
+                                />
+                            </BarChart>
+                        </ResponsiveContainer>
+                    ) : (
+                        <p className="text-center text-gray-600 mt-4">
+                            {error ? "Error loading category data" : "No category data available"}
+                        </p>
+                    )}
                 </div>
 
                 {/* Recent Payments */}
@@ -199,35 +248,37 @@ const AdminDashboard = () => {
             </div>
 
             {/* Popular Items */}
-            {/* Popular Items */}
             <div className="bg-white p-6 rounded-lg shadow-sm">
                 <h2 className="text-xl font-semibold mb-4">Top Selling Menu Items</h2>
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
-                    {recentPayments.flatMap(payment => payment.items)
-                        .reduce((acc, item) => {
-                            const existing = acc.find(i => i.menuId === item.menuId);
-                            if (existing) {
-                                existing.quantity += item.quantity;
-                            } else {
-                                acc.push({ ...item });
-                            }
-                            return acc;
-                        }, [])
-                        .sort((a, b) => b.quantity - a.quantity)
-                        .slice(0, 5)
-                        .map((item, index) => (
-                            <div key={`top-item-${index}`} className="border rounded-lg p-3">
-                                <div className="h-40 bg-gray-100 rounded mb-2 overflow-hidden flex items-center justify-center">
-                                    <span className="text-gray-400">Item image</span>
-                                </div>
-                                <h3 className="font-medium">{item.title}</h3>
-                                <div className="flex justify-between text-sm text-gray-600">
-                                    <span>Sold: {item.quantity}</span>
-                                    <span>${(item.quantity * item.unitPrice).toFixed(2)}</span>
-                                </div>
+                    {topSellingItems.map((item, index) => (
+                        <div key={`top-item-${index}`} className="border rounded-md p-3">
+                            <div className="h-40 bg-gray-100 rounded mb-2 overflow-hidden relative">
+                                {item.image ? (
+                                    <Image
+                                        src={item.image}
+                                        alt={item.title}
+                                        fill
+                                        className="object-cover"
+                                        unoptimized={true}
+                                        onError={(e) => {
+                                            e.target.onerror = null;
+                                            e.target.style.display = 'none';
+                                        }}
+                                    />
+                                ) : (
+                                    <div className="w-full h-full flex items-center justify-center bg-gray-200">
+                                        <span className="text-gray-500">No image</span>
+                                    </div>
+                                )}
                             </div>
-                        ))
-                    }
+                            <h3 className="font-medium">{item.title}</h3>
+                            <div className="flex justify-between text-sm text-gray-600">
+                                <span>Sold: {item.quantity}</span>
+                                <span>${(item.quantity * item.unitPrice).toFixed(2)}</span>
+                            </div>
+                        </div>
+                    ))}
                 </div>
             </div>
         </div>
