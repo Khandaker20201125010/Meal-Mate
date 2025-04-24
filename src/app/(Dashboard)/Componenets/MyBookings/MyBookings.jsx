@@ -89,7 +89,7 @@ const MyBookings = () => {
 
     return (
         <div className="p-4">
-            <h2 className="text-2xl font-semibold mb-4">My Bookings</h2>
+            <h2 className="text-2xl font-semibold mb-4">My Bookings {myBookings.length}</h2>
             <div className="overflow-x-auto">
                 <table className="min-w-full bg-white shadow-md rounded-lg">
                     <thead className="bg-gray-200">
