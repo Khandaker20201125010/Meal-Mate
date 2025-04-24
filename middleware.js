@@ -13,13 +13,14 @@ export async function middleware(req) {
 
   const { role, email } = token;
 
-  const adminRoutes = ["/api/add-menu", "/api/manage-users", "/api/manage-menu", "/api/manage-bookings", "/dashboard/add-menu", "/dashboard/manage-users", "/dashboard/manage-menu", "/dashboard/all-bookings"];
+  const adminRoutes = ["/api/add-menu", "/api/manage-users", "/api/manage-menu", "/api/manage-bookings", "/dashboard/add-menu", "/dashboard/manage-users", "/dashboard/manage-menu", "/dashboard/all-bookings", "/dashboard/payment-History","/dashboard/profile"];
   const customerRoutes = [
     "/api/my-orders",
     "/api/my-bookings",
     "/dashboard/my-orders",
     "/dashboard/my-bookings",
-    "/dashboard/profile"
+    "/dashboard/profile",
+    "/dashboard/payment-History",
   ];
 
   // Admin only access

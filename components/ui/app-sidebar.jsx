@@ -8,6 +8,7 @@ import {
   CalendarCheck,
   ChevronUp,
   Crown,
+  ScrollText
 } from "lucide-react";
 
 import {
@@ -28,7 +29,7 @@ import { usePathname } from "next/navigation";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "./dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "./avatar";
 import { useSession } from "next-auth/react";
-import AdminGuard from "@/src/services/AdminGuard";
+
 
 
 // Admin-specific menu
@@ -38,6 +39,7 @@ const adminMenu = [
   { title: "Manage User", url: "/dashboard/manage-users", icon: Users },
   { title: "Manage Menu", url: "/dashboard/manage-menu", icon: ClipboardList },
   { title: "All Bookings", url: "/dashboard/all-bookings", icon: CalendarCheck },
+  { title: "Payment History", url: "/dashboard/payment-History", icon: ScrollText },
 ];
 
 // User-only menu
@@ -45,6 +47,7 @@ const userMenu = [
   { title: "Profile", url: "/dashboard/profile", icon: UserCircle },
   { title: "My Orders", url: "/dashboard/my-orders", icon: ClipboardList },
   { title: "My Bookings", url: "/dashboard/my-bookings", icon: CalendarCheck },
+  { title: "Payment History", url: "/dashboard/payment-History", icon: ScrollText },
 ];
 
 export function AppSidebar() {
