@@ -64,7 +64,7 @@ export function AppSidebar() {
         {/* ✅ Admin Section */}
         {role === "admin" && (
           <SidebarGroup>
-            <SidebarGroupLabel>Admin</SidebarGroupLabel>
+            <SidebarGroupLabel>('MEALMATE') Admin Dashboard</SidebarGroupLabel>
             <SidebarGroupContent>
               <SidebarMenu className="space-y-4 w-full">
                 {adminMenu.map((item) => (

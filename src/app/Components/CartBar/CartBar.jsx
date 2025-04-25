@@ -7,6 +7,7 @@ import Swal from "sweetalert2";
 import { MdDelete } from "react-icons/md";
 import Modal from "@/components/ui/Modal";
 import Payment from "../../(Dashboard)/Componenets/Payments/Payment";
+import Link from "next/link";
 
 const CartBar = () => {
     const [myCarts, setMyCarts] = useState([]);
@@ -116,12 +117,13 @@ const CartBar = () => {
                             {myCarts.length === 0 ? (
                                 <div className="flex flex-col items-center justify-center h-full">
                                     <p className="text-gray-500 text-lg py-10">Your cart is empty</p>
-                                    <button
+                                   <Link href='/menu'> <button
                                         onClick={() => setSliderVisible(false)}
-                                        className="px-6 py-2 bg-orange-600 text-white rounded-md hover:bg-orange-700 transition-colors"
+                                        className="btn px-10 py-2 bg-orange-600 text-white rounded-md hover:bg-orange-700 transition-colors"
                                     >
                                         Continue Shopping
                                     </button>
+                                    </Link>
                                 </div>
                             ) : (
                                 <ul className="divide-y">

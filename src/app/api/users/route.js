@@ -2,33 +2,69 @@
 import { NextResponse } from "next/server";
 import connectDB from "../../lib/connectDB";
 import Users from "@/src/models/Users";
-
+import bcrypt from "bcryptjs";
 // ? NEW CREATED USERS
 export const POST = async (req) => {
   try {
     await connectDB();
+
     const body = await req.json();
-    const exixst = await Users.findOne({ email: body.email });
-    if (exixst) {
+    console.log("Request body:", body); // Debugging
+
+    // Validate required fields
+    if (!body.name || !body.email || !body.password || !body.image) {
       return NextResponse.json(
-        { message: "User Alredy Exixst" },
+        { message: "All fields are required" },
+        { status: 400 }
+      );
+    }
+
+    // Check if user exists
+    const existingUser = await Users.findOne({ email: body.email });
+    if (existingUser) {
+      return NextResponse.json(
+        { message: "User already exists" },
         { status: 409 }
       );
     }
-    const newUser = new Users(body);
-    const users = await newUser.save();
+
+    // Hash password
+    const hashedPassword = await bcrypt.hash(body.password, 10);
+
+    // Create new user
+    const newUser = new Users({
+      name: body.name,
+      email: body.email,
+      password: hashedPassword,
+      image: body.image,
+      role: "customer" // Changed from "tourist" to match your schema
+    });
+
+    const savedUser = await newUser.save();
+
+    // Return user without password
+    const { password, ...userWithoutPassword } = savedUser._doc;
+
     return NextResponse.json(
-      { message: "User Created", users },
-      { status: 200 }
+      {
+        success: true,
+        message: "User created successfully",
+        user: userWithoutPassword
+      },
+      { status: 201 }
     );
   } catch (err) {
+    console.error("Error in user creation:", err);
     return NextResponse.json(
-      { message: "Something went wrong", error: err.message },
+      {
+        success: false,
+        message: "Internal server error",
+        error: err.message
+      },
       { status: 500 }
     );
   }
 };
-
 // ? GET ALL USERS
 export const GET = async (req) => {
   try {

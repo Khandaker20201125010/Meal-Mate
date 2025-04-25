@@ -17,14 +17,33 @@ import Swal from 'sweetalert2';
 
 const DetailspageBody = () => {
     const { id } = useParams();
-    const { data: session } = useSession();
+    const { data: session, status } = useSession();
+    const router = useRouter();
     const [loading, setLoading] = useState(true);
     const [menu, setMenu] = useState(null);
     const [quantity, setQuantity] = useState(1);
     const [size, setSize] = useState('small');
     const price = menu ? (size === 'small' ? menu.smallPrice : menu.largePrice) : 0;
     const [relatedMenus, setRelatedMenus] = useState([]);
-    const router = useRouter();
+
+    const checkAuth = async (action) => {
+        if (status === 'unauthenticated') {
+            const result = await Swal.fire({
+                title: 'Authentication Required',
+                text: `You need to be logged in to ${action}. Do you want to sign up now?`,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Yes, Sign Up',
+                cancelButtonText: 'Cancel',
+            });
+
+            if (result.isConfirmed) {
+                router.push('/signup');
+            }
+            return false;
+        }
+        return true;
+    };
 
     const fetchRelatedMenus = useCallback(async () => {
         if (!menu) return;
@@ -70,6 +89,9 @@ const DetailspageBody = () => {
     };
 
     const handleAddToCart = async () => {
+        const isAuthenticated = await checkAuth('add items to cart');
+        if (!isAuthenticated) return;
+
         const result = await Swal.fire({
             title: 'Add to Cart',
             text: `Add ${quantity} x ${menu.title} to cart for $${(price * quantity).toFixed(2)}?`,
@@ -107,6 +129,9 @@ const DetailspageBody = () => {
     };
 
     const handleAddBooking = async () => {
+        const isAuthenticated = await checkAuth('make bookings');
+        if (!isAuthenticated) return;
+
         const result = await Swal.fire({
             title: 'Add Booking',
             text: `Book ${quantity} x ${menu.title} for $${(price * quantity).toFixed(2)}?`,
@@ -119,23 +144,19 @@ const DetailspageBody = () => {
             try {
                 const bookingData = {
                     userEmail: session.user.email,
-                    menuId:    menu._id,
-                    title:     menu.title,
+                    menuId: menu._id,
+                    title: menu.title,
                     quantity,
                     size,
-                    price:     price * quantity,
-                    image:     menu.image,
-                    status:    'booked',
-                  };
-
-                console.log("Sending booking data:", bookingData); // Debug log
+                    price: price * quantity,
+                    image: menu.image,
+                    status: 'booked',
+                };
 
                 const response = await axios.post(
                     `${process.env.NEXT_PUBLIC_URL}/api/bookings`,
                     bookingData
                 );
-
-                console.log("Booking response:", response.data); // Debug log
 
                 setMenu(prev => ({
                     ...prev,
@@ -153,6 +174,7 @@ const DetailspageBody = () => {
             }
         }
     };
+
     if (loading) {
         return <div className="p-4 text-center">Loading...</div>;
     }

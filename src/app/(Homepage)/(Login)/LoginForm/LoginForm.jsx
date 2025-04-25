@@ -83,6 +83,7 @@ export default function LoginPage() {
                         fill
                         className="object-cover"
                         priority
+                        sizes="50vw"
                     />
                 </div>
             </div>
@@ -146,15 +147,15 @@ export default function LoginPage() {
                     </div>
 
                     <div className="flex gap-4">
-                        <button
+                        <button data-tip="Login with Google"
                             onClick={() => handleSocialLogin("google")}
-                            className="flex-1 py-2.5 border border-gray-400 rounded flex items-center justify-center hover:shadow-lg hover:shadow-orange-300 transition"
+                            className="tooltip tooltip-error btn bg-transparent flex-1 py-2.5 border border-gray-400 rounded flex items-center justify-center hover:shadow-lg hover:shadow-orange-300 transition"
                         >
                             <FcGoogle className="text-xl" />
                         </button>
-                        <button
+                        <button data-tip="Login with Facebook"
                             onClick={() => handleSocialLogin("facebook")}
-                            className="flex-1 py-2.5 border border-gray-400 rounded flex items-center justify-center hover:shadow-lg hover:shadow-blue-300 transition"
+                            className="tooltip tooltip-info btn bg-transparent flex-1 py-2.5 border border-gray-400 rounded flex items-center justify-center hover:shadow-lg hover:shadow-blue-300 transition"
                         >
                             <FaFacebook className="text-xl text-blue-600" />
                         </button>

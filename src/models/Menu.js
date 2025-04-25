@@ -11,7 +11,7 @@ const menuSchema = new mongoose.Schema({
     type: [String],
     default: [],
     
-    enum: ["Breakfast", "Lunch", "Dinner", "Snack", "Discount"], // Add your categories
+    enum: ["Breakfast", "Lunch", "Dinner", "Snack", "Discount", "Special"], 
     required: true,
     validate: {
       validator: function(categories) {
