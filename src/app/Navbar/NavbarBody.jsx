@@ -12,6 +12,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { MdSpaceDashboard } from "react-icons/md";
 import { LuLogOut } from "react-icons/lu";
+import CartBar from "../Components/CartBar/CartBar";
 
 const NavbarBody = () => {
   const pathname = usePathname();
@@ -62,13 +63,21 @@ const NavbarBody = () => {
       className={`${lastScrollY === 0 ? "absolute" : "fixed"} top-0 left-0 right-0 mx-auto max-w-[90rem] z-50 transition-all duration-300 ${navColor} ${navbarVisible ? "transform-none" : "-translate-y-full"
         }`}
     >
-      <div className="navbar px-4 py-2 flex justify-between items-center">
-        <Logo />
+      <div className="navbar md:px-20 py-2 flex justify-between items-center">
+        <div className="flex gap-14">
+          <Logo />
+          <div className="relative py-2 md:hidden">
+            <CartBar />
+          </div>
+        </div>
         <div className="hidden lg:flex ">
           <NavLinks textColor={textColor} isTop={lastScrollY === 0} />
         </div>
+        <div className="hidden lg:flex items-center gap-4">
+          <div className="relative mx-10">
+            <CartBar />
+          </div>
 
-        <div className="hidden lg:block">
           {!session ? (
             <a href="/login" className={`${buttonColor} border-blue-900 mx-4 rounded-full`}>
               <button className="btn px-6 py-2 border border-white text-white font-semibold tracking-wider rounded-full backdrop-blur-lg bg-opacity-75 bg-transparent transition hover:bg-gradient-to-r from-pink-500 to-orange-500">
@@ -76,7 +85,7 @@ const NavbarBody = () => {
               </button>
             </a>
           ) : (
-            <div className="dropdown dropdown-end mx-16">
+            <div className="dropdown dropdown-end">
               {/* Avatar Button */}
               <div
                 tabIndex={0}
@@ -127,7 +136,6 @@ const NavbarBody = () => {
                   </button>
                 </li>
               </ul>
-
             </div>
           )}
         </div>
