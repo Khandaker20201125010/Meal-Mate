@@ -92,7 +92,7 @@ const NavbarBody = () => {
                 role="button"
                 className="btn btn-ghost btn-circle avatar border border-white"
               >
-                <div className="w-10 h-10 rounded-full overflow-hidden relative border border-white">
+                <div className="w-10 h-10 rounded-full overflow-hidden relative border border-white ">
                   <Image
                     src={
                       session?.user?.image ||

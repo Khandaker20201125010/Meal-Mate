@@ -12,7 +12,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en" data-theme="light">
-      <body className={`${roboto.className}`}>
+      <body className={`${roboto.className} max-w-[90rem] mx-auto`}>
         <AuthProvider>{children}</AuthProvider>
       </body>
     </html>
