@@ -23,11 +23,16 @@ const AdminDashboard = () => {
         totalUsers: 0,
         totalOrders: 0,
         totalMenuItems: 0
-    })
+    });
+
+
     const [recentPayments, setRecentPayments] = useState([])
     const [popularItems, setPopularItems] = useState([])
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState(null)
+    const calculatedTotalRevenue = recentPayments.reduce(
+        (sum, payment) => sum + payment.amount, 0
+    );
 
     useEffect(() => {
         const fetchData = async () => {
@@ -142,7 +147,10 @@ const AdminDashboard = () => {
                 <StatCard
                     icon={<FiDollarSign size={24} />}
                     title="Total Revenue"
-                    value={`$${stats.totalRevenue.toFixed(2)}`}
+                    value={`$${(stats.totalRevenue || calculatedTotalRevenue).toLocaleString('en-US', {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2
+                    })}`}
                     color="bg-blue-100 text-blue-600"
                 />
                 <StatCard

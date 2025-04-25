@@ -30,19 +30,28 @@ export const POST = async (req) => {
 };
 
 // ? GET ALL USERS
-export const GET = async () => {
+export const GET = async (req) => {
   try {
     await connectDB();
+    const { searchParams } = new URL(req.url);
+    const email = searchParams.get("email");
+
+    if (email) {
+      const user = await Users.findOne({ email });
+      if (!user) {
+        return NextResponse.json({ message: "User not found" }, { status: 404 });
+      }
+      return NextResponse.json(user, { status: 200 });
+    }
+
     const users = await Users.find({});
     return NextResponse.json({ users }, { status: 200 });
   } catch (err) {
-    console.error("Error fetching users:", err);
-    return NextResponse.json(
-      { message: "Something went wrong", error: err.message },
-      { status: 500 }
-    );
+    return NextResponse.json({ message: "Something went wrong", error: err.message }, { status: 500 });
   }
 };
+
+
 // ? DELETE USER
 export const DELETE = async (req) => {
   try {
