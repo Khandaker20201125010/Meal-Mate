@@ -5,13 +5,14 @@ import { useRouter } from 'next/navigation';
 import toast, { Toaster } from 'react-hot-toast';
 import { FiUpload, FiImage, FiX } from 'react-icons/fi';
 const ReviewForm = ({ onSubmitSuccess }) => {
-    const { data: session } = useSession();
+    const { data: session, status } = useSession();
     const router = useRouter();
     const [rating, setRating] = useState(0);
     const [comment, setComment] = useState('');
     const [image, setImage] = useState(null);
     const [submitting, setSubmitting] = useState(false);
     const [error, setError] = useState('');
+    
 
     const handleImageChange = (e) => {
         if (e.target.files && e.target.files[0]) {

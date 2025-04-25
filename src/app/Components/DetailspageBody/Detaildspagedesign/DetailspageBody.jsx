@@ -5,6 +5,7 @@ import {
     CarouselContent,
     CarouselItem,
 } from '@/components/ui/carousel';
+import { dispatchCartUpdate } from '@/src/app/lib/events';
 import axios from 'axios';
 import { useSession } from 'next-auth/react';
 import Image from 'next/image';
@@ -113,10 +114,16 @@ const DetailspageBody = () => {
                 });
 
                 if (response.status === 201) {
+                    // Update menu quantity
                     setMenu(prev => ({
                         ...prev,
                         quantity: prev.quantity - quantity
                     }));
+
+                    // Update localStorage cart count
+                    const currentCount = parseInt(localStorage.getItem('cartCount')) || 0;
+                    localStorage.setItem('cartCount', (currentCount + 1).toString());
+                    dispatchCartUpdate();
                     Swal.fire('Added!', 'Item added to cart.', 'success');
                 } else {
                     Swal.fire('Error', 'Something went wrong while adding to cart.', 'error');
@@ -245,17 +252,17 @@ const DetailspageBody = () => {
                         </div>
 
                         <div className="flex gap-4 w-full">
-                            <button
+                            <button data-tip="Add to Cart !"
                                 onClick={handleAddToCart}
-                                className="btn flex items-center justify-center gap-2 w-1/2 bg-gradient-to-br from-pink-500 to-orange-600 hover:bg-orange-600 text-white px-5 py-2 rounded-md shadow font-semibold transition"
+                                className="tooltip tooltip-error btn flex items-center justify-center gap-2 w-1/2 bg-gradient-to-br from-pink-500 to-orange-600 hover:bg-orange-600 text-white px-5 py-2 rounded-md shadow font-semibold transition"
                             >
                                 <FaCartPlus className="text-xl" />
                                 Add to Cart
                             </button>
 
-                            <button
+                            <button data-tip="Add Booking !"
                                 onClick={handleAddBooking}
-                                className="btn flex items-center justify-center gap-2 w-1/2 bg-gradient-to-br from-orange-500 to-pink-600 hover:bg-pink-600 text-white px-5 py-2 rounded-md shadow font-semibold transition"
+                                className="tooltip tooltip-error btn flex items-center justify-center gap-2 w-1/2 bg-gradient-to-br from-orange-500 to-pink-600 hover:bg-pink-600 text-white px-5 py-2 rounded-md shadow font-semibold transition"
                             >
                                 <FaRegCalendarPlus className="text-xl" />
                                 Add Booking
