@@ -37,7 +37,7 @@ const contactDetails = [
 ];
 
 const ContactCard = () => (
-  <section className=" bg-gradient-to-tr from-orange-50 to-orange-100  text-black py-16">
+  <section data-aos="fade-right" className=" bg-gradient-to-tr from-orange-50 to-orange-100  text-black py-16">
     <div className="max-w-6xl mx-auto px-4">
       {/* Header */}
       <p className="text-orange-500 uppercase tracking-widest mb-2">

@@ -1,5 +1,7 @@
 'use client';
 
+import Link from "next/link";
+
 const Footer = () => {
     return (
         <div>
@@ -29,12 +31,20 @@ const Footer = () => {
                     <div>
                         <h3 className="font-semibold mb-2">USEFULL LINKS</h3>
                         <ul className="space-y-1">
-                            <li><a href="#">Favorite place</a></li>
-                            <li><a href="#">Our history</a></li>
-                            <li><a href="#">Contact us</a></li>
-                            <li><a href="#">Places to get lost</a></li>
-                            <li><a href="#">Our brand</a></li>
+                            <li>
+                                <Link href="/menu">Favorite dishes</Link>
+                            </li>
+                            <li>
+                                <Link href="/about">About us</Link>
+                            </li>
+                            <li>
+                                <Link href="/contact">Contact us</Link>
+                            </li>
+                            <li>
+                                <Link href="/gallery">Place to get lost</Link>
+                            </li>
                         </ul>
+
                     </div>
 
 

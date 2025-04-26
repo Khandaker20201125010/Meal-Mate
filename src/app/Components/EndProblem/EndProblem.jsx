@@ -4,7 +4,7 @@ import Image from "next/image";
 import p1 from "../../../../public/assists/images/p1.png";
 import p2 from "../../../../public/assists/images/p2.png";
 import Link from "next/link";
-
+import { Typewriter } from 'react-simple-typewriter';
 const EndProblem = () => {
     const [showVideo, setShowVideo] = useState(false);
 
@@ -54,7 +54,15 @@ const EndProblem = () => {
                     {/* Right Text */}
                     <div className="text-center lg:text-left max-w-xl mt-8 lg:mt-0">
                         <h2 className="text-3xl md:text-4xl lg:text-5xl font-semibold mb-4 leading-tight">
-                            Got A Problem? We Got You!
+                            <Typewriter
+                                words={['Got A Problem? We Got You!']}
+                                loop={0} // 0 = infinite
+                                cursor
+                                cursorStyle="."
+                                typeSpeed={150}
+                                deleteSpeed={50}
+                                delaySpeed={2000}
+                            />
                         </h2>
                         <p className="text-sm md:text-base text-gray-200 mb-6">
                             "We Rise By Lifting Others" is what we believe in. You won't stay stuck in the
@@ -69,10 +77,10 @@ const EndProblem = () => {
                                     Contact Us
                                 </button>
                             </Link>
-                           <Link href="/menu">
-                           <button className="btn bg-[#d3a465] hover:bg-[#b88a4c] text-white font-medium sm:font-semibold px-5 sm:px-6 py-2 rounded-full transition transform hover:scale-105">
-                                Purchase Now
-                            </button>
+                            <Link href="/menu">
+                                <button className="btn bg-[#d3a465] hover:bg-[#b88a4c] text-white font-medium sm:font-semibold px-5 sm:px-6 py-2 rounded-full transition transform hover:scale-105">
+                                    Purchase Now
+                                </button>
                             </Link>
                         </div>
                     </div>

@@ -7,7 +7,7 @@ const MenuCardsBody = ({ menu }) => {
   const price = size === 'small' ? menu.smallPrice : menu.largePrice;
 
   return (
-    <div className="max-w-sm bg-white shadow-lg rounded-lg overflow-hidden hover:shadow-xl transition duration-300">
+    <div data-aos="zoom-in" className="max-w-sm bg-white shadow-lg rounded-lg overflow-hidden hover:shadow-xl transition duration-300">
       <div className="relative h-48 w-full overflow-hidden">
         <img
           src={menu.image}

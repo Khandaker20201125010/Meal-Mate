@@ -50,7 +50,7 @@ const Skeleton = ({ image, onEyeClick }) => {
   const [src, setSrc] = useState(image);
 
   return (
-    <div className="relative w-full h-[260px] max-sm:h-60 rounded-xl overflow-hidden group">
+    <div data-aos="zoom-in" className="relative w-full h-[260px] max-sm:h-60 rounded-xl overflow-hidden group">
       <Image
         src={src}
         alt="Menu"

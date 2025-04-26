@@ -25,12 +25,13 @@ const ReviewSlider = ({ refreshSignal = 0 }) => {
     }
 
     return (
-        <div className='bg-[#faebdd]  p-10 mt-2'>
-            <div className="text-center mb-8">
-                <h2 className="text-2xl font-semibold mb-4 text-orange-500 font-serif">Customer Reviews</h2>
-                <p>"See what our customers have to say about our fine dining experience."</p>
+        <div className="bg-[#faebdd] p-10 mt-2">
+            <div className="text-center mb-10">
+                <h2 className="text-3xl font-bold mb-2 text-orange-500 font-serif">Customer Reviews</h2>
+                <p className="text-gray-600">"See what our customers have to say about our fine dining experience."</p>
             </div>
-            <Carousel opts={{ align: 'start', loop: true }} className="w-full max-w-6xl mx-auto z-10">
+
+            <Carousel opts={{ align: 'start', loop: true }} className="w-full max-w-6xl mx-auto">
                 <CarouselContent>
                     {reviews.map((review, idx) => {
                         const date = new Date(review.createdAt).toLocaleDateString('en-US', {
@@ -38,13 +39,18 @@ const ReviewSlider = ({ refreshSignal = 0 }) => {
                         });
 
                         return (
-                            <CarouselItem key={idx} className="p-2 sm:basis-full md:basis-1/2 lg:basis-1/3">
-                                <Card className="h-full flex flex-col justify-between rounded-lg overflow-hidden  bg-gradient-to-r from-pink-100 to-orange-100">
-                                    <CardContent className="flex flex-col h-full p-6">
-                                        <FaQuoteLeft className="text-3xl text-orange-200 mb-4" />
-                                        <p className="text-gray-700 flex-1 mb-6">“{review.comment}”</p>
+                            <CarouselItem
+                                key={idx}
+                                className="p-4 sm:basis-full md:basis-1/2 lg:basis-1/3"
+                            >
+                                <Card data-aos="zoom-in" className="h-full group transition-all duration-500 ease-in-out transform hover:scale-105 hover:shadow-2xl bg-white rounded-xl overflow-hidden">
+                                    <CardContent className="flex flex-col h-full p-8 relative animate-fadeIn">
+                                        <FaQuoteLeft className="text-4xl text-orange-200 mb-4" />
+                                        <p className="text-gray-700 text-base mb-6 leading-relaxed flex-1">
+                                            “{review.comment}”
+                                        </p>
 
-                                        <div className="flex items-center justify-between mb-4">
+                                        <div className="flex items-center justify-between mt-6">
                                             <div className="flex gap-1">
                                                 {[...Array(5)].map((_, i) =>
                                                     i < review.rating
@@ -52,10 +58,10 @@ const ReviewSlider = ({ refreshSignal = 0 }) => {
                                                         : <FaRegStar key={i} className="text-gray-300" />
                                                 )}
                                             </div>
-                                            <span className="text-sm text-gray-500 italic">{date}</span>
+                                            <span className="text-xs text-gray-400 italic">{date}</span>
                                         </div>
 
-                                        <p className="font-semibold text-gray-800">{review.userName}</p>
+                                        <p className="mt-4 font-semibold text-gray-800">{review.userName}</p>
                                     </CardContent>
                                 </Card>
                             </CarouselItem>

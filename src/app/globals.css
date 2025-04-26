@@ -144,3 +144,29 @@
 .animate-spin-slow {
   animation: spin-slow 10s linear infinite;
 }
+@keyframes fade-down-right {
+  0% {
+    transform: translateY(-20px) translateX(-20px);
+  }
+  100% {
+    transform: translateY(0) translateX(0);
+  }
+}
+
+@keyframes fade-down-left {
+  0% {
+    transform: translateY(-20px) translateX(20px);
+  }
+  100% {
+    transform: translateY(0) translateX(0);
+  }
+}
+
+
+.animate-fade-down-right {
+  animation: fade-down-right 1s ease-out forwards;
+}
+
+.animate-fade-down-left {
+  animation: fade-down-left 1s ease-out forwards;
+}

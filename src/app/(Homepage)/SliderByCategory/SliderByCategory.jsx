@@ -63,7 +63,7 @@ const SliderByCategory = () => {
                         <CarouselItem key={i} className="p-2 sm:basis-full md:basis-1/2 lg:basis-1/3">
                             <Card className="h-[450px] rounded-xl overflow-hidden relative shadow-none">
                                 <CardContent className="p-0 h-full">
-                                    <div className="relative w-full h-full group">
+                                    <div data-aos="zoom-in" className="relative w-full h-full group">
                                         <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/5 to-transparent z-10" />
                                         <Image
                                             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw" // Adjust based on your layout

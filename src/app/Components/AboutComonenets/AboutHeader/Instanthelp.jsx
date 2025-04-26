@@ -6,7 +6,7 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/
 
 const Instanthelp = () => {
     return (
-        <div className="mt-20 px-4 sm:px-6 lg:px-24">
+        <div data-aos="zoom-in" className="mt-20 px-4 sm:px-6 lg:px-24">
             <div className="flex flex-col md:flex-row items-stretch gap-8">
 
                 {/* Text and Image Section */}

@@ -54,7 +54,7 @@ const MichelinSection = () => {
 
         <div className="relative  py-20">
           {/* Left Sketch Illustration */}
-          <div className="absolute left-0 bottom-0 z-0 opacity-10">
+          <div  className="absolute left-0 bottom-0 z-0 opacity-15 animate-fade-down-right">
             <Image
               src={moddlefoodone}
               alt="Sketch Left"
@@ -63,7 +63,7 @@ const MichelinSection = () => {
           </div>
 
           {/* Right Sketch Illustration */}
-          <div className="absolute right-0 bottom-0 z-0 opacity-10">
+          <div  className="absolute right-0 bottom-0 z-0 opacity-15 animate-fade-down-left">
             <Image
               src={moddlefoodtwo}
               alt="Sketch Right"

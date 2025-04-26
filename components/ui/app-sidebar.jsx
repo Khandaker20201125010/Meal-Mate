@@ -25,10 +25,10 @@ import {
 } from "@/components/ui/sidebar";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "./dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "./avatar";
-import { useSession } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 
 
 
@@ -55,7 +55,7 @@ const userMenu = [
 export function AppSidebar() {
   const pathname = usePathname();
   const { data: session, status } = useSession();
-
+  const router = useRouter();
   const role = session?.user?.role;
   const email = session?.user?.email;
 
@@ -99,7 +99,7 @@ export function AppSidebar() {
                     <SidebarMenuButton asChild>
                       <Link href={item.url}>
                         <div
-                           className={`flex w-[250px] items-center gap-2 overflow-hidden p-2 text-left text-sm outline-hidden ring-sidebar-ring transition-[width,height,padding] hover:bg-sidebar-accent hover:text-sidebar-accent-foreground focus-visible:ring-2 active:bg-sidebar-accent active:text-sidebar-accent-foreground disabled:pointer-events-none disabled:opacity-50 group-has-data-[sidebar=menu-action]/menu-item:pr-8 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[active=true]:bg-gray-100 data-[active=true]:font-medium data-[active=true]:text-sidebar-accent-foreground data-[state=open]:hover:bg-sidebar-accent data-[state=open]:hover:text-sidebar-accent-foreground group-data-[collapsible=icon]:size-8! group-data-[collapsible=icon]:p-2! [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0 ${pathname === item.url ? "bg-gray-100" : ""}`}
+                          className={`flex w-[250px] items-center gap-2 overflow-hidden p-2 text-left text-sm outline-hidden ring-sidebar-ring transition-[width,height,padding] hover:bg-sidebar-accent hover:text-sidebar-accent-foreground focus-visible:ring-2 active:bg-sidebar-accent active:text-sidebar-accent-foreground disabled:pointer-events-none disabled:opacity-50 group-has-data-[sidebar=menu-action]/menu-item:pr-8 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[active=true]:bg-gray-100 data-[active=true]:font-medium data-[active=true]:text-sidebar-accent-foreground data-[state=open]:hover:bg-sidebar-accent data-[state=open]:hover:text-sidebar-accent-foreground group-data-[collapsible=icon]:size-8! group-data-[collapsible=icon]:p-2! [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0 ${pathname === item.url ? "bg-gray-100" : ""}`}
                         >
                           <item.icon size={18} />
                           <span className="text-xl">{item.title}</span>
@@ -136,7 +136,14 @@ export function AppSidebar() {
           <DropdownMenuContent side="right" className="w-full p-1 m-2">
             <DropdownMenuItem className='hover:bg-yellow-100 bg-yellow-400'>Upgrade to Pro <Crown className="text-back" /></DropdownMenuItem>
             <DropdownMenuItem><Link href="/">Home</Link></DropdownMenuItem>
-            <DropdownMenuItem>Log out</DropdownMenuItem>
+            <DropdownMenuItem
+              onClick={async () => {
+                await signOut({ redirect: false }); 
+                router.push('/login');             
+              }}
+            >
+              Log out
+            </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       </SidebarFooter>

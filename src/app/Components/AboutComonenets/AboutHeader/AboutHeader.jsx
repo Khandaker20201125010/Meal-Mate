@@ -18,15 +18,15 @@ const AboutHeader = () => {
     const clampedOffset = Math.min(offsetY, 300);
 
     return (
-        <div className="mt-20 relative bg-[#f4f0e8] text-black font-serif overflow-hidden">
+        <div  className="mt-20 relative bg-[#f4f0e8] text-black font-serif overflow-hidden">
             {/* Decorative Herbs */}
-            <div
+            <div data-aos="zoom-in"
                 className="absolute top-20 left-10 w-32 md:w-48 opacity-50 z-0 transition-transform duration-300 ease-out"
                 style={{ transform: `translateY(${clampedOffset * -0.3}px)` }}
             >
                 <Image src={herb} alt="Herb" />
             </div>
-            <div
+            <div data-aos="zoom-in"
                 className="absolute bottom-10 right-10 w-20 md:w-32 opacity-50 z-0 transition-transform duration-300 ease-out"
                 style={{ transform: `translateY(${clampedOffset * -0.3}px)` }}
             >
@@ -34,7 +34,7 @@ const AboutHeader = () => {
             </div>
 
             {/* Main content */}
-            <div className="relative z-10 flex flex-col md:flex-row items-start md:items-center px-6 sm:px-10 lg:px-24 md:h-screen h-auto">
+            <div data-aos="zoom-in" className="relative z-10 flex flex-col md:flex-row items-start md:items-center px-6 sm:px-10 lg:px-24 md:h-screen h-auto">
                 <div className="relative max-w-5xl w-full">
                     {/* Image Behind Text (md+) */}
                     <div
@@ -53,7 +53,7 @@ const AboutHeader = () => {
                     </div>
 
                     {/* Text Content */}
-                    <div className="md:w-2/3 relative lg:z-10 p-4 sm:p-6 lg:p-8 rounded-xl bg-opacity-80">
+                    <div data-aos="zoom-in" className="md:w-2/3 relative lg:z-10 p-4 sm:p-6 lg:p-8 rounded-xl bg-opacity-80">
                         <p className="text-sm tracking-widest mb-4">01</p>
                         <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-[70px] leading-tight mb-6 flex items-center gap-4">
                             About <span className="font-light">Us</span>
@@ -66,7 +66,7 @@ const AboutHeader = () => {
                     </div>
 
                     {/* Inline Image Below Text (sm only) */}
-                    <div className="block md:hidden mt-6 w-full h-64 sm:h-80 overflow-hidden rounded-lg shadow-xl relative">
+                    <div data-aos="zoom-in" className="block md:hidden mt-6 w-full h-64 sm:h-80 overflow-hidden rounded-lg shadow-xl relative">
                         <Image
                             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                             src={a1}
