@@ -39,6 +39,7 @@ const adminMenu = [
   { title: "Manage User", url: "/dashboard/manage-users", icon: Users },
   { title: "Manage Menu", url: "/dashboard/manage-menu", icon: ClipboardList },
   { title: "All Bookings", url: "/dashboard/all-bookings", icon: CalendarCheck },
+  { title: "Check Reservation", url: "/dashboard/check-reservation", icon: CalendarCheck },
   { title: "Payment History", url: "/dashboard/payment-History", icon: ScrollText },
 ];
 
@@ -47,6 +48,7 @@ const userMenu = [
   { title: "Profile", url: "/dashboard/profile", icon: UserCircle },
   { title: "My Orders", url: "/dashboard/my-orders", icon: ClipboardList },
   { title: "My Bookings", url: "/dashboard/my-bookings", icon: CalendarCheck },
+  { title: "my Reservation", url: "/dashboard/my-reservation", icon: CalendarCheck },
   { title: "Payment History", url: "/dashboard/payment-History", icon: ScrollText },
 ];
 
