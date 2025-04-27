@@ -1,10 +1,18 @@
 'use client';
 import Link from 'next/link';
 import { useState } from 'react';
+import { useSession } from 'next-auth/react';
 
 const MenuCardsBody = ({ menu }) => {
   const [size, setSize] = useState('small');
-  const price = size === 'small' ? menu.smallPrice : menu.largePrice;
+  const { data: session } = useSession();
+  const isProUser = session?.user?.status === 'pro';
+
+  // Calculate base price
+  const basePrice = size === 'small' ? menu.smallPrice : menu.largePrice;
+  
+  // Apply 20% discount for pro users
+  const price = isProUser ? basePrice * 0.8 : basePrice;
 
   return (
     <div data-aos="zoom-in" className="max-w-sm bg-white shadow-lg rounded-lg overflow-hidden hover:shadow-xl transition duration-300">
@@ -41,7 +49,14 @@ const MenuCardsBody = ({ menu }) => {
             <span className="text-sm">Large</span>
           </label>
         </div>
-        <p className="text-gray-700 font-medium text-lg">Price: ${price.toFixed(2)}</p>
+        <p className="text-gray-700 font-medium text-lg">
+          Price: ${price.toFixed(2)}
+          {isProUser && (
+            <span className="ml-2 text-green-500 text-sm">
+              (20% Pro discount applied!)
+            </span>
+          )}
+        </p>
         <Link href={`/menu/${menu._id}`}>
           <button className="btn w-full btn-sm bg-orange-500 hover:bg-orange-600 text-white">
             View Details

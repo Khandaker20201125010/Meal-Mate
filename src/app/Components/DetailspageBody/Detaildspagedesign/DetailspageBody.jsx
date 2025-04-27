@@ -24,8 +24,11 @@ const DetailspageBody = () => {
     const [menu, setMenu] = useState(null);
     const [quantity, setQuantity] = useState(1);
     const [size, setSize] = useState('small');
-    const price = menu ? (size === 'small' ? menu.smallPrice : menu.largePrice) : 0;
+    const isProUser = session?.user?.status === 'pro';
+    const basePrice = menu ? (size === 'small' ? menu.smallPrice : menu.largePrice) : 0;
+    const price = isProUser ? basePrice * 0.8 : basePrice;
     const [relatedMenus, setRelatedMenus] = useState([]);
+
 
     const checkAuth = async (action) => {
         if (status === 'unauthenticated') {

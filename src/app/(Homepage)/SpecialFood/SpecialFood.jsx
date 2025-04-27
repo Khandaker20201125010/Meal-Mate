@@ -8,11 +8,17 @@ import axios from "axios";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useSession } from "next-auth/react";
 
 const SpecialFood = () => {
   const [menus, setMenus] = useState([]);
   const [loading, setLoading] = useState(true);
   const pathname = usePathname();
+  const { data: session } = useSession();
+  
+  // Check if user is Pro
+  const isProUser = session?.user?.status === 'pro';
+
   const fetchMenus = async () => {
     try {
       const { data } = await axios.get(`/api/menus`);
@@ -28,9 +34,15 @@ const SpecialFood = () => {
     fetchMenus();
   }, []);
 
+  // Apply discount to special items
   const specialCategoryItems = menus.filter(item =>
     item.category.includes("Special")
-  );
+  ).map(item => ({
+    ...item,
+    // Apply 20% discount for Pro users
+    smallPrice: isProUser ? item.smallPrice * 0.8 : item.smallPrice,
+    largePrice: isProUser ? item.largePrice * 0.8 : item.largePrice
+  }));
 
   return (
     <div className="bg-[#f8ece1]">
@@ -41,6 +53,11 @@ const SpecialFood = () => {
             View Our <br className="hidden md:block" />
             Menu
           </h1>
+          {isProUser && (
+            <div className="mt-2 text-green-600 font-medium">
+              Enjoy 20% Pro discount on all items!
+            </div>
+          )}
         </div>
 
         <div className="float-animation bg-orange-600 text-white flex items-center justify-center p-6 w-28 h-28 mt-5 rounded-full cursor-pointer hover:bg-orange-700 transition-all">
@@ -56,8 +73,8 @@ const SpecialFood = () => {
           loop={true}
           speed={1000}
           autoplay={{
-            delay: 3000, // 3 seconds between slides
-            disableOnInteraction: false, // keeps autoplay running after user interaction
+            delay: 3000,
+            disableOnInteraction: false,
           }}
           pagination={{ clickable: true }}
           breakpoints={{
@@ -82,12 +99,29 @@ const SpecialFood = () => {
                 </div>
                 <div className="p-4">
                   <h3 className="font-semibold text-lg">{item.title}</h3>
-                  <div className="mt-3 flex gap-4 text-green-700 font-medium">
-                    <span>Small : {item.smallPrice}$</span>
-                    <span>Large : {item.largePrice}$</span>
+                  <div className="mt-3 flex flex-col gap-1 text-green-700 font-medium">
+                    <div>
+                      <span>Small: {item.smallPrice.toFixed(2)}$</span>
+                      {isProUser && (
+                        <span className="ml-2 text-sm text-gray-500 line-through">
+                          {(item.smallPrice / 0.8).toFixed(2)}$
+                        </span>
+                      )}
+                    </div>
+                    <div>
+                      <span>Large: {item.largePrice.toFixed(2)}$</span>
+                      {isProUser && (
+                        <span className="ml-2 text-sm text-gray-500 line-through">
+                          {(item.largePrice / 0.8).toFixed(2)}$
+                        </span>
+                      )}
+                    </div>
                   </div>
                   <Link href={`/menu/${item._id}`}>
-                    <button className="btn btn-sm rounded-md bg-orange-600 text-white mt-1 hover:bg-orange-600">View Details</button></Link>
+                    <button className="btn btn-sm rounded-md bg-orange-600 text-white mt-1 hover:bg-orange-600">
+                      View Details
+                    </button>
+                  </Link>
                 </div>
               </SwiperSlide>
             ))

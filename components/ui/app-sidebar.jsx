@@ -34,7 +34,10 @@ import { useState } from "react";
 import { Button } from "./button";
 import { loadStripe } from "@stripe/stripe-js";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "./dialog";
+import { Elements } from "@stripe/react-stripe-js";
+import SubscriptionCheckoutForm from "@/src/app/(Dashboard)/Componenets/Payments/SubscriptionCheckoutForm";
 
+const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY);
 // Admin-specific menu
 const adminMenu = [
   { title: "Profile", url: "/dashboard/profile", icon: UserCircle },
@@ -61,7 +64,7 @@ export function AppSidebar() {
   const router = useRouter();
   const role = session?.user?.role;
   const email = session?.user?.email;
-  
+
   // State for modals
   const [isSubscriptionModalOpen, setIsSubscriptionModalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -70,32 +73,6 @@ export function AppSidebar() {
     setIsSubscriptionModalOpen(true);
   };
 
-  const handleSubscribe = async () => {
-    setIsLoading(true);
-    
-    try {
-      // Call your API endpoint to create a Stripe checkout session
-      const response = await fetch('/api/create-subscription', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          email: session?.user?.email,
-          userId: session?.user?.id,
-        }),
-      });
-
-      const data = await response.json();
-      
-      // Redirect to Stripe checkout
-      const stripe = await loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY);
-      await stripe.redirectToCheckout({ sessionId: data.id });
-    } catch (error) {
-      console.error('Error:', error);
-      setIsLoading(false);
-    }
-  };
 
   return (
     <Sidebar className=" ">
@@ -172,8 +149,8 @@ export function AppSidebar() {
             </button>
           </DropdownMenuTrigger>
           <DropdownMenuContent side="right" className="w-full p-1 m-2">
-            <DropdownMenuItem 
-              className='hover:bg-yellow-100 bg-yellow-400' 
+            <DropdownMenuItem
+              className='hover:bg-yellow-100 bg-yellow-400'
               onClick={handleUpgradeToPro}
             >
               Upgrade to Pro <Crown className="text-back" />
@@ -181,8 +158,8 @@ export function AppSidebar() {
             <DropdownMenuItem><Link href="/">Home</Link></DropdownMenuItem>
             <DropdownMenuItem
               onClick={async () => {
-                await signOut({ redirect: false }); 
-                router.push('/login');             
+                await signOut({ redirect: false });
+                router.push('/login');
               }}
             >
               Log out
@@ -192,36 +169,43 @@ export function AppSidebar() {
       </SidebarFooter>
 
       {/* Subscription Modal */}
+      // Update your AppSidebar component's modal section:
       <Dialog open={isSubscriptionModalOpen} onOpenChange={setIsSubscriptionModalOpen}>
-        <DialogContent>
+        <DialogContent className="max-w-md">
           <DialogHeader>
-            <DialogTitle>Upgrade to Pro</DialogTitle>
+            <DialogTitle className="text-2xl font-bold">Upgrade to Pro</DialogTitle>
           </DialogHeader>
-          <div className="space-y-4">
-            <p className="text-gray-600">
-              Get access to premium features for just $9/month!
-            </p>
+          <div className="space-y-6">
             <div className="space-y-2">
-              <div className="flex items-center gap-2">
-                <Crown className="text-yellow-500" />
-                <span>Priority support</span>
+              <div className="flex items-center gap-3">
+                <Crown className="text-yellow-500" size={20} />
+                <span className="font-medium">Priority support</span>
               </div>
-              <div className="flex items-center gap-2">
-                <Crown className="text-yellow-500" />
-                <span>Advanced analytics</span>
+              <div className="flex items-center gap-3">
+                <Crown className="text-yellow-500" size={20} />
+                <span className="font-medium">Exclusive features</span>
               </div>
-              <div className="flex items-center gap-2">
-                <Crown className="text-yellow-500" />
-                <span>Exclusive features</span>
+              <div className="flex items-center gap-3">
+                <Crown className="text-yellow-500" size={20} />
+                <span className="font-medium">Advanced analytics</span>
               </div>
             </div>
-            <div className="flex justify-end gap-2">
-              <Button variant="outline" onClick={() => setIsSubscriptionModalOpen(false)}>
-                Cancel
-              </Button>
-              <Button onClick={handleSubscribe} disabled={isLoading}>
-                {isLoading ? "Processing..." : "Subscribe Now"}
-              </Button>
+
+            <div className="border-t pt-4">
+              <Elements stripe={stripePromise}>
+                <SubscriptionCheckoutForm
+                  onSuccess={() => {
+                    setIsSubscriptionModalOpen(false);
+                    // Show success message
+                    Swal.fire({
+                      icon: 'success',
+                      title: 'Subscription Successful!',
+                      text: 'You now have Pro status',
+                      timer: 2000,
+                    });
+                  }}
+                />
+              </Elements>
             </div>
           </div>
         </DialogContent>

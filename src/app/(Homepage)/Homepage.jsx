@@ -6,6 +6,7 @@ import BookingSection from "./BookingSection/BookingSection";
 import SliderByCategory from "./SliderByCategory/SliderByCategory";
 import ReviewSlider from "../Components/Reviews/ReviewSlider";
 import EndProblem from "../Components/EndProblem/EndProblem";
+import Subscriptionhome from "../Components/SubscriptionComponents/MenuMarque/Subscriptionhome";
 
 const Homepage = () => {
   return (
@@ -15,6 +16,7 @@ const Homepage = () => {
       <MichelinSection></MichelinSection>
       <SliderByCategory></SliderByCategory>
       <BookingSection></BookingSection>
+      <Subscriptionhome></Subscriptionhome>
       <ReviewSlider></ReviewSlider>
       <EndProblem></EndProblem>
     </div>
