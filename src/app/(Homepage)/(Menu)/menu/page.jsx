@@ -1,12 +1,11 @@
 import React from 'react';
-import MenuBanner from '../MenuBanner/MenuBanner';
-import MenuCards from '../MenuCards/MenuCards';
+import Menu from '../MenuCards/Menu';
+
 
 const menu = () => {
     return (
         <div>
-           <MenuBanner></MenuBanner>
-           <MenuCards></MenuCards>
+          <Menu></Menu>
         </div>
     );
 };

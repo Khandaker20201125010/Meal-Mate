@@ -7,6 +7,7 @@ import { GrUpdate } from 'react-icons/gr';
 import { Eraser } from 'lucide-react';
 import Swal from 'sweetalert2';
 import UpdateMenuModal from './UpdateMenuModal';
+import Loading from '@/src/Loading';
 
 const ManageMenuList = () => {
   const [menus, setMenus] = useState([]);
@@ -59,7 +60,7 @@ const ManageMenuList = () => {
   }, []);
 
   if (loading) {
-    return <div className="text-center p-4">Loading menus...</div>;
+    return <div className="text-center p-4"><Loading></Loading></div>;
   }
 
   return (

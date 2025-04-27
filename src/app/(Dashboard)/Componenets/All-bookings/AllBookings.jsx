@@ -5,6 +5,7 @@ import axios from 'axios';
 import Image from 'next/image';
 import { Eraser } from 'lucide-react';
 import Swal from 'sweetalert2';
+import Loading from '@/src/Loading';
 
 const AllBookings = () => {
     const [allBookings, setAllBookings] = useState([]);
@@ -59,7 +60,7 @@ const AllBookings = () => {
             Swal.fire('Error!', 'Failed to accept booking.', 'error');
         }
     };
-    if (loading) return <p>Loading...</p>;
+    if (loading) return <p><Loading></Loading></p>;
     if (error) return <p>{error}</p>;
 
     return (

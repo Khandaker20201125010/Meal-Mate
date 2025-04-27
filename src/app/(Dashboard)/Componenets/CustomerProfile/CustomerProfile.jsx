@@ -2,8 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { useSession } from 'next-auth/react';
 import axios from 'axios';
 import Image from 'next/image';
+import Loading from '@/src/Loading';
 
-const image_hosting_token = process.env.IMAGE_HOSTING_KEY;
+const image_hosting_token = process.env.NEXT_PUBLIC_IMAGE_HOSTING_KEY;
 const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_token}`;
 
 const CustomerProfile = () => {
@@ -117,7 +118,7 @@ const CustomerProfile = () => {
         }
     };
 
-    if (loading) return <div className="flex justify-center items-center h-screen">Loading...</div>;
+    if (loading) return <div className="flex justify-center items-center h-screen"><Loading></Loading></div>;
     if (error) return <div className="text-red-500 p-4">Error: {error}</div>;
 
     return (

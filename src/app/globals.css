@@ -170,3 +170,8 @@
 .animate-fade-down-left {
   animation: fade-down-left 1s ease-out forwards;
 }
+@layer utilities {
+  .animate-spin-slow {
+    animation: spin 3s linear infinite;
+  }
+}

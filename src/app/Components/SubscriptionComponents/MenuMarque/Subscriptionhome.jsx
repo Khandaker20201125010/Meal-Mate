@@ -66,7 +66,7 @@ const Subscriptionhome = () => {
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                         </svg>
                     </div>
-                    <p class="text-lg text-gray-700">You're now part of our Foodie Pro family!</p>
+                    <p class="text-lg text-gray-700">You're now part of our MealMate Pro family!</p>
                     <p class="text-sm text-gray-500 mt-2">Check your email for subscription details.</p>
                 </div>
             `,

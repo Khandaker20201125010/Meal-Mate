@@ -15,6 +15,7 @@ import {
     Legend
 } from 'recharts'
 import Image from 'next/image'
+import Loading from '@/src/Loading'
 
 const AdminDashboard = () => {
     const { data: session } = useSession()
@@ -104,7 +105,7 @@ const AdminDashboard = () => {
         fetchData();
     }, []);
 
-    if (loading) return <div className="p-8">Loading dashboard...</div>;
+    if (loading) return <div className="p-8"><Loading></Loading></div>;
     if (error) return <div className="p-8 text-red-500">Error: {error.message}</div>;
 
     // Process top selling items
