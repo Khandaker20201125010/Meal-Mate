@@ -7,7 +7,7 @@ import { LuImageUp } from "react-icons/lu";
 import { MdOutlineCancel } from "react-icons/md";
 import Swal from "sweetalert2";
 
-const image_hosting_token = process.env.NEXT_PUBLIC_IMAGE_HOSTING_KEY;
+const image_hosting_token = process.env.IMAGE_HOSTING_KEY;
 const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_token}`;
 
 const categories = ["Breakfast", "Lunch", "Dinner", "Snack", "Discount", "Special"];

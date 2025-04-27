@@ -12,7 +12,7 @@ import Swal from "sweetalert2";
 import { useRouter } from "next/navigation";
 import { signIn, useSession } from "next-auth/react";
 
-const image_hosting_token = process.env.NEXT_PUBLIC_IMAGE_HOSTING_KEY;
+const image_hosting_token = process.env.IMAGE_HOSTING_KEY;
 const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_token}`;
 
 export default function SignUpPage() {
