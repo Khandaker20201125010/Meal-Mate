@@ -29,8 +29,11 @@ import { usePathname, useRouter } from "next/navigation";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "./dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "./avatar";
 import { signOut, useSession } from "next-auth/react";
+import { useState } from "react";
 
-
+import { Button } from "./button";
+import { loadStripe } from "@stripe/stripe-js";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "./dialog";
 
 // Admin-specific menu
 const adminMenu = [
@@ -58,12 +61,47 @@ export function AppSidebar() {
   const router = useRouter();
   const role = session?.user?.role;
   const email = session?.user?.email;
+  
+  // State for modals
+  const [isSubscriptionModalOpen, setIsSubscriptionModalOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleUpgradeToPro = () => {
+    setIsSubscriptionModalOpen(true);
+  };
+
+  const handleSubscribe = async () => {
+    setIsLoading(true);
+    
+    try {
+      // Call your API endpoint to create a Stripe checkout session
+      const response = await fetch('/api/create-subscription', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email: session?.user?.email,
+          userId: session?.user?.id,
+        }),
+      });
+
+      const data = await response.json();
+      
+      // Redirect to Stripe checkout
+      const stripe = await loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY);
+      await stripe.redirectToCheckout({ sessionId: data.id });
+    } catch (error) {
+      console.error('Error:', error);
+      setIsLoading(false);
+    }
+  };
 
   return (
     <Sidebar className=" ">
       <SidebarHeader />
       <SidebarContent>
-        {/* ✅ Admin Section */}
+        {/* Admin Section */}
         {role === "admin" && (
           <SidebarGroup>
             <SidebarGroupLabel>('MEALMATE') Admin Dashboard</SidebarGroupLabel>
@@ -88,7 +126,7 @@ export function AppSidebar() {
           </SidebarGroup>
         )}
 
-        {/* ✅ User Section */}
+        {/* User Section */}
         {role === "customer" && (
           <SidebarGroup>
             <SidebarGroupLabel>My DashBoard</SidebarGroupLabel>
@@ -134,7 +172,12 @@ export function AppSidebar() {
             </button>
           </DropdownMenuTrigger>
           <DropdownMenuContent side="right" className="w-full p-1 m-2">
-            <DropdownMenuItem className='hover:bg-yellow-100 bg-yellow-400'>Upgrade to Pro <Crown className="text-back" /></DropdownMenuItem>
+            <DropdownMenuItem 
+              className='hover:bg-yellow-100 bg-yellow-400' 
+              onClick={handleUpgradeToPro}
+            >
+              Upgrade to Pro <Crown className="text-back" />
+            </DropdownMenuItem>
             <DropdownMenuItem><Link href="/">Home</Link></DropdownMenuItem>
             <DropdownMenuItem
               onClick={async () => {
@@ -147,6 +190,42 @@ export function AppSidebar() {
           </DropdownMenuContent>
         </DropdownMenu>
       </SidebarFooter>
+
+      {/* Subscription Modal */}
+      <Dialog open={isSubscriptionModalOpen} onOpenChange={setIsSubscriptionModalOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Upgrade to Pro</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4">
+            <p className="text-gray-600">
+              Get access to premium features for just $9/month!
+            </p>
+            <div className="space-y-2">
+              <div className="flex items-center gap-2">
+                <Crown className="text-yellow-500" />
+                <span>Priority support</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <Crown className="text-yellow-500" />
+                <span>Advanced analytics</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <Crown className="text-yellow-500" />
+                <span>Exclusive features</span>
+              </div>
+            </div>
+            <div className="flex justify-end gap-2">
+              <Button variant="outline" onClick={() => setIsSubscriptionModalOpen(false)}>
+                Cancel
+              </Button>
+              <Button onClick={handleSubscribe} disabled={isLoading}>
+                {isLoading ? "Processing..." : "Subscribe Now"}
+              </Button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
     </Sidebar>
   );
 }

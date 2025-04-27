@@ -37,7 +37,8 @@ export const POST = async (req) => {
       email: body.email,
       password: hashedPassword,
       image: body.image,
-      role: "customer" // Changed from "tourist" to match your schema
+      role: "customer",
+      status: "regular" // Changed from "tourist" to match your schema
     });
 
     const savedUser = await newUser.save();

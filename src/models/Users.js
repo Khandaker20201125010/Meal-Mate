@@ -35,6 +35,12 @@ const UsersSchema = new mongoose.Schema(
       default: "customer",
       required: true,
     },
+    status: {
+      type: String,
+      enum: ["regular", "pro"],
+      default: "regular", // This ensures status is always set
+      required: true,
+    },
   },
   { timestamps: true }
 );

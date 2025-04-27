@@ -76,7 +76,8 @@ export default function SignUpPage() {
                 email: data.email,
                 password: data.password,
                 image: imageUrl,
-                role: "customer" // Changed from "tourist" to match schema
+                role: "customer",
+                status: "regular", // Changed from "tourist" to match schema
             };
 
             // Save user
@@ -137,6 +138,7 @@ export default function SignUpPage() {
                 throw new Error(res.error);
             }
 
+            // The actual status setting happens in the NextAuth callback
             Swal.fire({
                 icon: "success",
                 title: `Logged in with ${provider}`,
