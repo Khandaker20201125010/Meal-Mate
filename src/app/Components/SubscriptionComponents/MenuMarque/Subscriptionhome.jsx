@@ -1,21 +1,26 @@
 'use client';
 import React, { useState } from 'react';
 import MenuMarque from './MenuMarque';
-import { BarChart2, Crown, Gift } from 'lucide-react';
+import { BarChart2, Crown, Gift, X } from 'lucide-react';
 import { Elements } from '@stripe/react-stripe-js';
-import Swal from 'sweetalert2';
 import { loadStripe } from "@stripe/stripe-js";
 import SubscriptionCheckoutForm from '@/src/app/(Dashboard)/Componenets/Payments/SubscriptionCheckoutForm';
+
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY);
+
 const Subscriptionhome = () => {
     const [isSubscriptionModalOpen, setIsSubscriptionModalOpen] = useState(false);
-    const handleUpgradeToPro = () => {
-        setIsSubscriptionModalOpen(true);
+
+    const handleSuccess = () => {
+        setIsSubscriptionModalOpen(false);
+        // You can add a success notification here
     };
 
     return (
         <div>
-            <MenuMarque></MenuMarque>
+            <MenuMarque />
+            
+            {/* Subscription Section */}
             <section className="bg-gradient-to-br from-orange-50 to-amber-100 py-12 px-6 md:px-16 rounded-3xl shadow-xl mx-4 md:mx-20 my-16 border border-orange-200">
                 <div className="flex flex-col md:flex-row items-center justify-between gap-10 max-w-6xl mx-auto">
                     {/* Text Section */}
@@ -52,8 +57,9 @@ const Subscriptionhome = () => {
                     {/* Button Section */}
                     <div className="relative">
                         <div className="absolute -inset-3 bg-amber-400/30 rounded-2xl blur-lg opacity-75 group-hover:opacity-100 transition duration-500"></div>
-                        <button open={isSubscriptionModalOpen} onOpenChange={setIsSubscriptionModalOpen}
-                            className="relative px-10 py-4 bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-white font-bold rounded-2xl text-xl shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl"
+                        <button
+                            onClick={() => setIsSubscriptionModalOpen(true)}
+                            className="btn relative px-10 py-8 border-none bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-white font-bold rounded-2xl text-xl shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl"
                         >
                             Subscribe Now
                             <span className="absolute -right-2 -top-2 flex h-6 w-6">
@@ -66,8 +72,44 @@ const Subscriptionhome = () => {
                         </p>
                     </div>
                 </div>
-               
             </section>
+
+            {/* Subscription Modal */}
+            {isSubscriptionModalOpen && (
+                <div className="fixed inset-0 backdrop-blur-sm bg-opacity-50 flex items-center justify-center z-50 p-4">
+                    <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full relative overflow-hidden">
+                        <button 
+                            onClick={() => setIsSubscriptionModalOpen(false)}
+                            className="absolute top-4 right-4 text-gray-500 hover:text-gray-700"
+                        >
+                            <X size={24} />
+                        </button>
+                        
+                        <div className="p-8">
+                            <h3 className="text-2xl font-bold text-orange-600 mb-6 text-center">
+                                Upgrade to Foodie Pro
+                            </h3>
+                            
+                            <div className="space-y-4 mb-6">
+                                <div className="flex items-center gap-3">
+                                    <div className="p-2 bg-amber-100 rounded-full">
+                                        <Crown className="text-amber-600" size={20} />
+                                    </div>
+                                    <span className="font-medium">$9/month - Cancel anytime</span>
+                                </div>
+                            </div>
+                            
+                            <Elements stripe={stripePromise}>
+                                <SubscriptionCheckoutForm onSuccess={handleSuccess} />
+                            </Elements>
+                            
+                            <p className="text-sm text-gray-500 mt-4 text-center">
+                                Secure payment processed by Stripe
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 };
