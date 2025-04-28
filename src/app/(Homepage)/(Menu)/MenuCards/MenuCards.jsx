@@ -8,6 +8,7 @@ import mb2 from '../../../../../public/assists/images/mb2.png';
 import mb4 from '../../../../../public/assists/images/mb4.png';
 import mb5 from '../../../../../public/assists/images/mb5.png';
 import Image from 'next/image';
+import Loading from '@/src/Loading';
 const MenuCards = () => {
     const params = useSearchParams();
     const initialCat = params.get('category') || 'All Menu';
@@ -77,7 +78,7 @@ const MenuCards = () => {
     const currentSet = filteredMenus.slice(start, start + itemsPerPage);
 
     if (loading) {
-        return <p className="text-center p-4">Loading menus…</p>;
+        return <p className="text-center p-4"><Loading></Loading></p>;
     }
 
     return (

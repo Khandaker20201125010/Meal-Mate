@@ -3,6 +3,7 @@ import { useSession } from 'next-auth/react';
 import axios from 'axios';
 import Image from 'next/image';
 import Loading from '@/src/Loading';
+import { Crown } from 'lucide-react';
 
 const image_hosting_token = process.env.NEXT_PUBLIC_IMAGE_HOSTING_KEY;
 const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_token}`;
@@ -177,6 +178,7 @@ const CustomerProfile = () => {
                             )}
                         </h2>
                         <p className="text-gray-600">{userData?.email}</p>
+                        <p className="text-gray-600 uppercase flex gap-2 ">Current Status: <span className="font-semibold text-yellow-500 flex gap-2"> {userData?.status} <Crown></Crown></span></p>
                     </div>
 
                     <div className="space-y-4">
