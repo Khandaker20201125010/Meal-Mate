@@ -78,7 +78,7 @@ const MenuCards = () => {
     const currentSet = filteredMenus.slice(start, start + itemsPerPage);
 
     if (loading) {
-        return <p className="text-center p-4"><Loading></Loading></p>;
+        return <div className="text-center p-4"><Loading /></div>;
     }
 
     return (
@@ -98,7 +98,7 @@ const MenuCards = () => {
             {/* search + sort */}
             <div className="flex max-sm:flex-col flex-wrap justify-center gap-4 mb-6">
                 <div className="absolute left-20 transform -translate-y-1/2 opacity-35  hidden md:block  ">
-                    <Image src={mb1} alt="" width={200} height={300}  className='w-auto h-auto'/>
+                    <Image src={mb1} alt="" width={200} height={300} className='w-auto h-auto' />
                 </div>
                 <input
                     type="text"

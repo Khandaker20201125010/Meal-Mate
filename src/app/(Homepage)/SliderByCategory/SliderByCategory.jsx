@@ -37,7 +37,7 @@ const SliderByCategory = () => {
     };
 
     return (
-        <div className="bg-[#ebdccd] p-20">
+        <div className="bg-[#ebdccd] p-4 sm:p-8 md:p-12 lg:p-20">
             {/* Header */}
             <div className="relative px-4 md:px-8 lg:px-16 py-12">
                 <div className="absolute left-0 top-1/2 transform -translate-y-1/2 opacity-10 hidden md:block">
@@ -66,13 +66,14 @@ const SliderByCategory = () => {
                                     <div data-aos="zoom-in" className="relative w-full h-full group">
                                         <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/5 to-transparent z-10" />
                                         <Image
-                                            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw" // Adjust based on your layout
+                                            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                                             src={menus.find(m => m.category.includes(cat))?.image || sl}
                                             alt={cat}
                                             fill
                                             className="object-cover z-0 h-auto w-auto"
                                         />
-                                        <div className="absolute inset-0 transform -translate-y-full group-hover:translate-y-0 transition-all duration-500 bg-black/40 z-20 flex flex-col items-center justify-center">
+                                        {/* Overlay content - always visible on mobile, hover on desktop */}
+                                        <div className="absolute inset-0 lg:transform lg:-translate-y-full md:group-hover:translate-y-0 transition-all duration-500 bg-black/40 z-20 flex flex-col items-center justify-center">
                                             <div
                                                 className="border-2 p-2 rounded-full cursor-pointer mb-2"
                                                 onClick={() => handleCategoryClick(cat)}

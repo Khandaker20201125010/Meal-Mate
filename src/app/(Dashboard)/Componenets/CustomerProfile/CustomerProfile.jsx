@@ -12,6 +12,7 @@ const CustomerProfile = () => {
     const { data: session } = useSession();
     const [userData, setUserData] = useState(null);
     const [orders, setOrders] = useState([]);
+    const [bookings, setBookings] = useState([]);
     const [completedPayments, setCompletedPayments] = useState([]);
     const [isEditing, setIsEditing] = useState(false);
     const [formData, setFormData] = useState({
@@ -39,8 +40,11 @@ const CustomerProfile = () => {
                 });
 
                 // Fetch user orders
-                const ordersRes = await axios.get(`/api/bookings?userEmail=${session.user.email}`);
+                const ordersRes = await axios.get(`/api/cart?userEmail=${session.user.email}`);
                 setOrders(ordersRes.data);
+                const bookingsRes = await axios.get(`/api/bookings?userEmail=${session.user.email}`);
+                setBookings(bookingsRes.data); 
+
 
                 // Fetch completed payments
                 const paymentsRes = await axios.get(`/api/payments?email=${session.user.email}`);
@@ -253,10 +257,7 @@ const CustomerProfile = () => {
                                 <div key={order._id} className="border rounded-lg p-4">
                                     <div className="flex justify-between items-start mb-2">
                                         <div>
-                                            <h3 className="font-medium">Order #{order._id.slice(-6).toUpperCase()}</h3>
-                                            <p className="text-sm text-gray-500">
-                                                {new Date(order.createdAt).toLocaleDateString()}
-                                            </p>
+                                        <h3 className="font-medium">{order.title || `Order #${order._id.slice(-6).toUpperCase()}`}</h3>
                                         </div>
                                         <span className={`px-3 py-1 rounded-full text-sm ${order.status === 'completed'
                                             ? 'bg-green-100 text-green-800'
@@ -268,25 +269,14 @@ const CustomerProfile = () => {
                                         </span>
                                     </div>
 
-                                    <div className="border-t pt-3">
-                                        <h4 className="font-medium mb-2">Items:</h4>
-                                        <ul className="space-y-2">
-                                            {order.items.map((item, index) => (
-                                                <li key={index} className="flex justify-between">
-                                                    <span>{item.title} x {item.quantity}</span>
-                                                    <span>${(item.unitPrice * item.quantity).toFixed(2)}</span>
-                                                </li>
-                                            ))}
-                                        </ul>
-                                    </div>
-
                                     <div className="border-t pt-3 flex justify-between font-medium">
                                         <span>Total:</span>
-                                        <span>${order.amount.toFixed(2)}</span>
+                                        <span>${(order.price ?? 0).toFixed(2)}</span>
                                     </div>
                                 </div>
                             ))}
                         </div>
+
                     )}
                 </div>
             </div>
@@ -310,12 +300,12 @@ const CustomerProfile = () => {
                     <div className="flex justify-between">
                         <div>
                             <p className="text-sm text-gray-500">Total</p>
-                            <p className="text-2xl font-bold">{orders.length}</p>
+                            <p className="text-2xl font-bold">{bookings.length}</p>
                         </div>
                         <div>
                             <p className="text-sm text-gray-500">Pending</p>
                             <p className="text-2xl font-bold">
-                                {orders.filter(o => o.status === 'pending').length}
+                                {bookings.filter(o => o.status === 'pending').length}
                             </p>
                         </div>
                     </div>
